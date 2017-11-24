@@ -69,7 +69,7 @@ class levelMap {
 
                     mapFile >> curTile;
 
-                    setSpawnPosition(curTile, j, i);
+                    setLevelPosition(curTile, j, i);
 
                     tile[i][j].setTexture(textureMap[curTile]);
                     tile[i][j].setPosition(SPRITE_SIZE*j, SPRITE_SIZE*i);
@@ -91,7 +91,7 @@ class levelMap {
         return sizeY;
     }
 
-    void setSpawnPosition(char curTile, int x, int y){
+    void setLevelPosition(char curTile, int x, int y){
         if (curTile == 'S'){
             spawnx = x;
             spawny = y;
@@ -110,7 +110,25 @@ class levelMap {
     }
 
     deque<sf::Vector2i> getPositions(){
-        return positions;
+        deque<sf::Vector2i> np;
+        int a, b, initA = getSpawnPosX(), initB = getSpawnPosY();
+        for(deque<sf::Vector2i>::iterator i=positions.begin(); i!=positions.end(); i++) {
+            a = (*i).x;
+            b = (*i).y;
+            np.push_back(sf::Vector2i(initA, initB));
+            if (a == initA && b != initB){
+                for(int i = initB; i <= b; i++){
+                    np.push_back(sf::Vector2i(a, i));
+                }
+            }else if (a != initA && b == initB){
+                for(int i = initA; i <= a; i++){
+                    np.push_back(sf::Vector2i(i, b));
+                }
+            }
+            initA = a;
+            initB = b;
+        }
+        return np;
     }
 
     sf::Sprite getTile(int x, int y) {
@@ -128,7 +146,6 @@ class Minion {
         Minion(string minionType, levelMap lm) {
             minionSprite.setTexture(textureManager.getTexture("resources/textures/"+minionType+".png"));
             minionSprite.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
-            //printf("%i %i\n", lm.getSpawnPosX(), lm.getSpawnPosY());
             movements = lm.getPositions();
         }
 
@@ -137,13 +154,11 @@ class Minion {
         }
 
         void move(float timer){
-            //printf("%i\n\n",movements.size() );
             if (movements.size() > 0){
                 sf::Vector2i point = movements.front();
-                //printf("%i %i\n", point.x, point.y);
                 movements.pop_front();
                 minionSprite.setPosition(point.x, point.y);
-                sf::sleep(sf::seconds(.3f));
+                sf::sleep(sf::seconds(getSpeed()/1000));
             }
         }
 
@@ -191,7 +206,7 @@ int main() {
             }
         }
 
-        m.move(minionTime);
+        m.move(timer.getElapsedTime().asSeconds());
         m.draw(window);
         window.display();
     }
