@@ -32,7 +32,7 @@ class TextureManager {
 };
 
 class levelMap {
-    int SPRITE_SIZE = 60;
+    int SPRITE_SIZE = 64;
     int sizeX, sizeY;
     int spawnx = 0, spawny = 0;
     map<int, string> levelFiles;
@@ -197,16 +197,24 @@ int main() {
             }
             if (event.type == sf::Event::KeyPressed) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    view.move(-64, 0);
+                    if (view.getCenter().x - 384 > 0) {
+                        view.move(-64, 0);
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    view.move(64, 0);
+                    if (view.getCenter().x + 384 < thisLevel.mapSizeX() * 64) {
+                        view.move(64, 0);
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    view.move(0, -64);
+                    if (view.getCenter().y - 336 > 0) {
+                        view.move(0, -64);
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    view.move(0, 64);
+                    if (view.getCenter().y + 336 < thisLevel.mapSizeY() * 64) {
+                        view.move(0, 64);
+                    }
                 }
             }
         }
