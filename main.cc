@@ -143,32 +143,32 @@ class Minion {
     deque<sf::Vector2i> movements;
 
     public:
-        Minion(string minionType, levelMap lm) {
-            minionSprite.setTexture(textureManager.getTexture("resources/textures/"+minionType+".png"));
-            minionSprite.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
-            movements = lm.getPositions();
-        }
+    Minion(string minionType, levelMap lm) {
+        minionSprite.setTexture(textureManager.getTexture("resources/textures/"+minionType+".png"));
+        minionSprite.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
+        movements = lm.getPositions();
+    }
 
-        void draw(sf::RenderTarget& target){
-            target.draw(minionSprite);
-        }
+    void draw(sf::RenderTarget& target){
+        target.draw(minionSprite);
+    }
 
-        void move(float timer){
-            if (movements.size() > 0){
-                sf::Vector2i point = movements.front();
-                movements.pop_front();
-                minionSprite.setPosition(point.x, point.y);
-                sf::sleep(sf::seconds(getSpeed()/1000));
-            }
+    void move(float timer){
+        if (movements.size() > 0){
+            sf::Vector2i point = movements.front();
+            movements.pop_front();
+            minionSprite.setPosition(point.x, point.y);
+            sf::sleep(sf::seconds(getSpeed()/1000));
         }
+    }
 
-        void setSpeed(float spd){
-            speed = spd;
-        }
+    void setSpeed(float spd){
+        speed = spd;
+    }
 
-        float getSpeed(){
-            return speed;
-        }
+    float getSpeed(){
+        return speed;
+    }
 };
 
 int main() {
@@ -194,6 +194,20 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
+            }
+            if (event.type == sf::Event::KeyPressed) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    view.move(-64, 0);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                    view.move(64, 0);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    view.move(0, -64);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    view.move(0, 64);
+                }
             }
         }
 
