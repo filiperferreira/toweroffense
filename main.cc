@@ -158,6 +158,7 @@ class Minion {
     sf::Sprite minionSprite;
     TextureManager textureManager;
     deque<sf::Vector2i> movements;
+    sf::Vector2i currPosition;
 
     public:
     Minion(string minionType, levelMap lm) {
@@ -173,8 +174,9 @@ class Minion {
     void move(float timer){
         if (movements.size() > 0){
             sf::Vector2i point = movements.front();
+            setPosition(point);
             movements.pop_front();
-            minionSprite.setPosition(point.x, point.y);
+            minionSprite.setPosition(getPosition().x, getPosition().y);
             sf::sleep(sf::seconds(getSpeed()/1000));
         }
     }
@@ -185,6 +187,14 @@ class Minion {
 
     float getSpeed(){
         return speed;
+    }
+
+    void setPosition(sf::Vector2i position){
+        currPosition = position;
+    }
+
+    sf::Vector2i getPosition(){
+        return currPosition;
     }
 };
 
