@@ -205,6 +205,8 @@ int main() {
 
     sf::View view(sf::Vector2f(384, 336), sf::Vector2f(768, 672));
     view.setViewport(sf::FloatRect(0.25, 0, 0.75, 0.875));
+    sf::View menu(sf::Vector2f(), sf::Vector2f(256, 672));
+    menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));
 
     TextureManager tm;
 
