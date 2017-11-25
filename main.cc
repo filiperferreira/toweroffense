@@ -9,7 +9,7 @@ using namespace std;
 
 class TextureManager {
     map<string, sf::Texture> textures;
-    
+
     public:
     TextureManager(): textures(){}
 
@@ -31,6 +31,16 @@ class TextureManager {
     }
 };
 
+class Tower {
+    int damage;
+    float range;
+
+    public:
+    Tower(int d, float r): damage(d), range(r) {
+
+    }
+};
+
 class levelMap {
     int SPRITE_SIZE = 64;
     int sizeX, sizeY;
@@ -39,19 +49,22 @@ class levelMap {
     map<char, sf::Texture> textureMap;
     vector<sf::Texture> texture;
     vector<vector<sf::Sprite>> tile;
+    vector<Tower> tower;
     deque<sf::Vector2i> positions;
 
     public:
     levelMap() {
-        levelFiles[1] = "resources/maps/level2.bin";
+        levelFiles[1] = "resources/maps/level3.bin";
 
-        texture = vector<sf::Texture>(2);
+        texture = vector<sf::Texture>(3);
         texture[0].loadFromFile("resources/textures/grass.png");
         texture[1].loadFromFile("resources/textures/ground.png");
+        texture[2].loadFromFile("resources/textures/tower.png");
 
         textureMap['X'] = texture[0];
         textureMap['O'] = texture[1];
         textureMap['S'] = texture[1]; //spawn position is S
+        textureMap['T'] = texture[2];
     }
 
     void loadLevel(int levelId) {
@@ -73,6 +86,10 @@ class levelMap {
 
                     tile[i][j].setTexture(textureMap[curTile]);
                     tile[i][j].setPosition(SPRITE_SIZE*j, SPRITE_SIZE*i);
+
+                    if (curTile == 'T') {
+                        tower.push_back(Tower(1, 128.0));
+                    }
                 }
             }
 
@@ -176,17 +193,17 @@ int main() {
     float minionTime = timer.restart().asSeconds();
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Tower Offense");
 
-    sf::View view(sf::Vector2f(512, 512), sf::Vector2f(768, 672));
+    sf::View view(sf::Vector2f(384, 336), sf::Vector2f(768, 672));
     view.setViewport(sf::FloatRect(0.25, 0, 0.75, 0.875));
 
     TextureManager tm;
 
     levelMap thisLevel;
     thisLevel.loadLevel(1);
-    
+
     Minion m("blue", thisLevel);
     m.setSpeed(10);
-    
+
 
     while (window.isOpen()) {
         sf::Event event;
