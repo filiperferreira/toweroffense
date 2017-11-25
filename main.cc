@@ -154,7 +154,7 @@ class levelMap {
 };
 
 class Minion {
-    float speed;
+    float speed, health;
     sf::Sprite minionSprite;
     TextureManager textureManager;
     deque<sf::Vector2i> movements;
@@ -189,6 +189,14 @@ class Minion {
         return speed;
     }
 
+    void setHealth(float hlt){
+        health = hlt;
+    }
+
+    float getHealth(){
+        return health;
+    }
+
     void setPosition(sf::Vector2i position){
         currPosition = position;
     }
@@ -215,7 +223,7 @@ int main() {
 
     Minion m("blue", thisLevel);
     m.setSpeed(10);
-
+    m.setHealth(100);
 
     while (window.isOpen()) {
         sf::Event event;
