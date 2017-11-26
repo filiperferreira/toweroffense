@@ -4,32 +4,9 @@
 #include <vector>
 #include <deque>
 #include <string>
+#include "TextureManager.h"
 
 using namespace std;
-
-class TextureManager {
-    map<string, sf::Texture> textures;
-
-    public:
-    TextureManager(): textures(){}
-
-    const sf::Texture& getTexture(const std::string& filename) {
-        for(map<string, sf::Texture>::const_iterator it = textures.begin(); it != textures.end(); ++it){
-            if( filename == it->first ){
-                return it->second;
-            }
-        }
-
-        sf::Texture image;
-        if(image.loadFromFile( filename )){
-            textures[filename] = image;
-            return textures[filename];
-        }
-
-        textures[filename] = image;
-        return textures[filename];
-    }
-};
 
 class Tower {
     int damage;
@@ -157,14 +134,13 @@ class Minion {
     float speed, health, initialHealth;
     int price;
     sf::Sprite minionSprite;
-    TextureManager textureManager;
     deque<sf::Vector2i> movements;
     sf::Vector2i currPosition;
     sf::RectangleShape healthBar;
 
     public:
     Minion(string minionType, levelMap lm) {
-        minionSprite.setTexture(textureManager.getTexture("resources/textures/"+minionType+".png"));
+        minionSprite.setTexture(*(TextureManager::getTexture(minionType)));
         minionSprite.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
         healthBar.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
         movements = lm.getPositions();
@@ -250,10 +226,11 @@ int main() {
     /*sf::View menu(sf::Vector2f(), sf::Vector2f(256, 672));
     menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));*/
 
-    TextureManager tm;
-
     levelMap thisLevel;
     thisLevel.loadLevel(1);
+    
+    // needs to name the texture and then call getTexture by its name
+    TextureManager::loadTexture("blue", "resources/textures/blue.png");
 
     vector<Minion> minions;
 
