@@ -245,10 +245,10 @@ int main() {
     float minionTime = timer.restart().asSeconds();
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Tower Offense");
 
-    sf::View view(sf::Vector2f(384, 336), sf::Vector2f(768, 672));
-    view.setViewport(sf::FloatRect(0.25, 0, 0.75, 0.875));
-    sf::View menu(sf::Vector2f(), sf::Vector2f(256, 672));
-    menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));
+    sf::View view(sf::Vector2f(512, 384), sf::Vector2f(1024, 768));
+    view.setViewport(sf::FloatRect(0, 0, 1, 1));
+    /*sf::View menu(sf::Vector2f(), sf::Vector2f(256, 672));
+    menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));*/
 
     TextureManager tm;
 
@@ -266,22 +266,22 @@ int main() {
             }
             if (event.type == sf::Event::KeyPressed) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    if (view.getCenter().x - 384 > 0) {
+                    if (view.getCenter().x - 512 > 0) {
                         view.move(-64, 0);
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    if (view.getCenter().x + 384 < thisLevel.mapSizeX() * 64) {
+                    if (view.getCenter().x + 512 < thisLevel.mapSizeX() * 64) {
                         view.move(64, 0);
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    if (view.getCenter().y - 336 > 0) {
+                    if (view.getCenter().y - 384 > 0) {
                         view.move(0, -64);
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    if (view.getCenter().y + 336 < thisLevel.mapSizeY() * 64) {
+                    if (view.getCenter().y + 384 < thisLevel.mapSizeY() * 64) {
                         view.move(0, 64);
                     }
                 }
