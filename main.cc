@@ -154,7 +154,7 @@ class levelMap {
 };
 
 class Minion {
-    float speed, health;
+    float speed, health, initialHealth;
     int price;
     sf::Sprite minionSprite;
     TextureManager textureManager;
@@ -200,6 +200,7 @@ class Minion {
         }else{
             health = -hlt;
         }
+        initialHealth = health; //unaltered after this!
         updateHealthBar(health);
     }
 
@@ -210,6 +211,12 @@ class Minion {
     void updateHealthBar(float hlt){
         healthBar.setSize(sf::Vector2f(hlt/4, 5));
         healthBar.setFillColor(sf::Color(100, 250, 50));
+        if (initialHealth*0.5 >= health){
+            healthBar.setFillColor(sf::Color(255,165,0));
+        }
+        if (initialHealth*0.2 >= health){
+            healthBar.setFillColor(sf::Color(255,0,0));
+        }
     }
 
     void setPosition(sf::Vector2i position){
@@ -220,7 +227,7 @@ class Minion {
         return currPosition;
     }
 
-    void damage(int dam){
+    void damage(float dam){
         if (isAlive()){
             health -= dam;
             if (health < 0) health = 0;
