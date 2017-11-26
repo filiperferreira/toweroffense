@@ -159,16 +159,19 @@ class Minion {
     TextureManager textureManager;
     deque<sf::Vector2i> movements;
     sf::Vector2i currPosition;
+    sf::RectangleShape healthBar;
 
     public:
     Minion(string minionType, levelMap lm) {
         minionSprite.setTexture(textureManager.getTexture("resources/textures/"+minionType+".png"));
         minionSprite.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
+        healthBar.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
         movements = lm.getPositions();
     }
 
     void draw(sf::RenderTarget& target){
         target.draw(minionSprite);
+        target.draw(healthBar);
     }
 
     void move(float timer){
@@ -177,6 +180,7 @@ class Minion {
             setPosition(point);
             movements.pop_front();
             minionSprite.setPosition(getPosition().x, getPosition().y);
+            healthBar.setPosition(getPosition().x, getPosition().y);
             sf::sleep(sf::seconds(getSpeed()/1000));
         }
     }
@@ -191,6 +195,8 @@ class Minion {
 
     void setHealth(float hlt){
         health = hlt;
+        healthBar.setSize(sf::Vector2f(hlt/4, 5));
+        healthBar.setFillColor(sf::Color(100, 250, 50));
     }
 
     float getHealth(){
