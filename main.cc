@@ -27,7 +27,7 @@ class levelMap {
     vector<sf::Texture> texture;
     vector<vector<sf::Sprite>> tile;
     vector<Tower> tower;
-    deque<sf::Vector2i> positions;
+    deque<sf::Vector2f> positions;
 
     public:
     levelMap() {
@@ -91,7 +91,7 @@ class levelMap {
             spawny = y;
         }
         if (curTile == 'O'){
-            positions.push_back(sf::Vector2i(x*SPRITE_SIZE, y*SPRITE_SIZE));
+            positions.push_back(sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE));
         }
     }
 
@@ -103,20 +103,20 @@ class levelMap {
         return spawny*SPRITE_SIZE;
     }
 
-    deque<sf::Vector2i> getPositions(){
-        deque<sf::Vector2i> np;
-        int a, b, initA = getSpawnPosX(), initB = getSpawnPosY();
-        for(deque<sf::Vector2i>::iterator i=positions.begin(); i!=positions.end(); i++) {
+    deque<sf::Vector2f> getPositions(){
+        deque<sf::Vector2f> np;
+        float a, b, initA = getSpawnPosX(), initB = getSpawnPosY();
+        for(deque<sf::Vector2f>::iterator i=positions.begin(); i!=positions.end(); i++) {
             a = (*i).x;
             b = (*i).y;
-            np.push_back(sf::Vector2i(initA, initB));
+            np.push_back(sf::Vector2f(initA, initB));
             if (a == initA && b != initB){
-                for(int i = initB; i <= b; i++){
-                    np.push_back(sf::Vector2i(a, i));
+                for(float i = initB; i <= b; i+=0.1){
+                    np.push_back(sf::Vector2f(a, i));
                 }
             }else if (a != initA && b == initB){
-                for(int i = initA; i <= a; i++){
-                    np.push_back(sf::Vector2i(i, b));
+                for(float i = initA; i <= a; i+=0.1){
+                    np.push_back(sf::Vector2f(i, b));
                 }
             }
             initA = a;
@@ -134,8 +134,8 @@ class Minion {
     float speed, health, initialHealth;
     int price;
     sf::Sprite minionSprite;
-    deque<sf::Vector2i> movements;
-    sf::Vector2i currPosition;
+    deque<sf::Vector2f> movements;
+    sf::Vector2f currPosition;
     sf::RectangleShape healthBar;
 
     public:
@@ -153,11 +153,11 @@ class Minion {
 
     void move(sf::Time timeElapsed) {
         if (movements.size() > 0){
-            sf::Vector2i point = movements.front();
+            sf::Vector2f point = movements.front();
             setPosition(point);
             movements.pop_front();
             minionSprite.setPosition(getPosition().x, getPosition().y);
-            healthBar.setPosition(getPosition().x, getPosition().y);
+            healthBar.setPosition(minionSprite.getPosition().x, minionSprite.getPosition().y);
         }
     }
 
@@ -194,11 +194,11 @@ class Minion {
         }
     }
 
-    void setPosition(sf::Vector2i position){
+    void setPosition(sf::Vector2f position){
         currPosition = position;
     }
 
-    sf::Vector2i getPosition(){
+    sf::Vector2f getPosition(){
         return currPosition;
     }
 
