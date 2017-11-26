@@ -151,14 +151,13 @@ class Minion {
         target.draw(healthBar);
     }
 
-    void move(float timer){
+    void move(sf::Time timeElapsed) {
         if (movements.size() > 0){
             sf::Vector2i point = movements.front();
             setPosition(point);
             movements.pop_front();
             minionSprite.setPosition(getPosition().x, getPosition().y);
             healthBar.setPosition(getPosition().x, getPosition().y);
-            sf::sleep(sf::seconds(getSpeed()/1000));
         }
     }
 
@@ -220,6 +219,7 @@ int main() {
     sf::Clock timer;
     float minionTime = timer.restart().asSeconds();
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Tower Offense");
+    sf::Clock clock;
 
     sf::View view(sf::Vector2f(512, 384), sf::Vector2f(1024, 768));
     view.setViewport(sf::FloatRect(0, 0, 1, 1));
@@ -236,6 +236,9 @@ int main() {
 
     while (window.isOpen()) {
         sf::Event event;
+        sf::Time timeElapsed;
+
+        timeElapsed = clock.restart();
 
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -281,7 +284,7 @@ int main() {
             }
         }
         for (int i = 0; i < minions.size(); i++) {
-            minions[i].move(timer.getElapsedTime().asSeconds());
+            minions[i].move(timeElapsed);
             minions[i].draw(window);
         }
         window.display();
