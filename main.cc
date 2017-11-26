@@ -231,6 +231,9 @@ int main() {
     
     // needs to name the texture and then call getTexture by its name
     TextureManager::loadTexture("blue", "resources/textures/blue.png");
+    TextureManager::loadTexture("green", "resources/textures/green.png");
+    TextureManager::loadTexture("purple", "resources/textures/purple.png");
+    TextureManager::loadTexture("yellow", "resources/textures/yellow.png");
 
     vector<Minion> minions;
 
@@ -267,6 +270,27 @@ int main() {
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
                     Minion m("blue", thisLevel);
+                    m.setSpeed(10);
+                    m.setHealth(100);
+
+                    minions.push_back(m);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+                    Minion m("green", thisLevel);
+                    m.setSpeed(10);
+                    m.setHealth(100);
+
+                    minions.push_back(m);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+                    Minion m("purple", thisLevel);
+                    m.setSpeed(10);
+                    m.setHealth(100);
+
+                    minions.push_back(m);
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+                    Minion m("yellow", thisLevel);
                     m.setSpeed(10);
                     m.setHealth(100);
 
