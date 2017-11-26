@@ -255,9 +255,7 @@ int main() {
     levelMap thisLevel;
     thisLevel.loadLevel(1);
 
-    Minion m("blue", thisLevel);
-    m.setSpeed(10);
-    m.setHealth(100);
+    vector<Minion> minions;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -287,6 +285,13 @@ int main() {
                         view.move(0, 64);
                     }
                 }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+                    Minion m("blue", thisLevel);
+                    m.setSpeed(10);
+                    m.setHealth(100);
+
+                    minions.push_back(m);
+                }
             }
         }
 
@@ -298,9 +303,10 @@ int main() {
                 window.draw(thisLevel.getTile(i, j));
             }
         }
-
-        m.move(timer.getElapsedTime().asSeconds());
-        m.draw(window);
+        for (int i = 0; i < minions.size(); i++) {
+            minions[i].move(timer.getElapsedTime().asSeconds());
+            minions[i].draw(window);
+        }
         window.display();
     }
 
