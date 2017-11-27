@@ -36,7 +36,7 @@ class levelMap {
         texture = vector<sf::Texture>(3);
         texture[0].loadFromFile("resources/textures/grass.png");
         texture[1].loadFromFile("resources/textures/ground.png");
-        texture[2].loadFromFile("resources/textures/tower.png");
+        texture[2].loadFromFile("resources/textures/towertile.png");
 
         textureMap['X'] = texture[0];
         textureMap['O'] = texture[1];
