@@ -79,17 +79,6 @@ class levelMap {
     }
 
 
-    int getLockedPosSize(){
-        return lockedPositions.size();
-    }
-
-    sf::Vector2f getLockedPosBack(){
-        return lockedPositions.back();
-    }
-    void popLockedPosBack(){
-        lockedPositions.pop_back();
-    }
-
     void loadLevel(int levelId) {
         ifstream mapFile;
 
@@ -110,7 +99,7 @@ class levelMap {
 
                     tile[i][j].setTexture(textureMap[curTile]);
                     tile[i][j].setPosition(SPRITE_SIZE*j, SPRITE_SIZE*i);
-                    sf::Vector2f pos1, pos2, pos3, pos4;
+
                     if (curTile == 'T') {
                         tower.push_back(Tower(10, 128.0, tile[i][j].getPosition(), 2000));
                     }
@@ -171,9 +160,6 @@ class levelMap {
             initB = b;
         }
         return np;
-    }
-    vector<sf::Vector2f> getLockedPos(){
-        return lockedPositions;
     }
 
     sf::Sprite getTile(int x, int y) {
