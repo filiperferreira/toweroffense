@@ -3,12 +3,15 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextureManager.h"
+#include "Constants.h"
 #include <string>
 #include <vector>
 #include <deque>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <iterator>
 
 using namespace std;
 
@@ -22,6 +25,10 @@ class LevelParser {
    //vector<Tower> tower;
    deque<sf::Vector2f> positions;
 
+private:
+   template<typename Out>
+   void split(const string &s, char delim, Out result);
+   vector<string> split(const string &s, char delim);
 public:
    ~LevelParser();
    LevelParser();
@@ -33,6 +40,9 @@ public:
    int getSpawnPosY();
    deque<sf::Vector2f> getPath();
    sf::Sprite getTile(int x, int y);
+   void parse(ifstream* mapFile);
+   vector<string> parseLine(ifstream* mapFile);
+   void parseLevel(ifstream* mapFile);
 };
 
 #endif

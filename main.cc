@@ -24,7 +24,7 @@ int main() {
     menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));*/
 
     LevelParser thisLevel;
-    thisLevel.loadLevel("resources/maps/level3.bin");
+    thisLevel.loadLevel("resources/maps/level4.bin");
     
     // needs to name the texture and then call getTexture by its name
     TextureManager::loadTexture("blue", "resources/textures/blue.png");
