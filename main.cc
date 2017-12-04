@@ -4,216 +4,13 @@
 #include <vector>
 #include <deque>
 #include <string>
+
 #include "TextureManager.h"
+#include "Minion.h"
+#include "Tower.h"
+#include "LevelParser.h"
 
 using namespace std;
-
-class Tower {
-    int damage;
-    float range;
-
-    public:
-    Tower(int d, float r): damage(d), range(r) {
-
-    }
-};
-
-class levelMap {
-    int SPRITE_SIZE = 64;
-    int sizeX, sizeY;
-    int spawnx = 0, spawny = 0;
-    map<int, string> levelFiles;
-    map<char, sf::Texture> textureMap;
-    vector<sf::Texture> texture;
-    vector<vector<sf::Sprite>> tile;
-    vector<Tower> tower;
-    deque<sf::Vector2f> positions;
-
-    public:
-    levelMap() {
-        levelFiles[1] = "resources/maps/level3.bin";
-
-        texture = vector<sf::Texture>(3);
-        texture[0].loadFromFile("resources/textures/grass.png");
-        texture[1].loadFromFile("resources/textures/ground.png");
-        texture[2].loadFromFile("resources/textures/towertile.png");
-
-        textureMap['X'] = texture[0];
-        textureMap['O'] = texture[1];
-        textureMap['S'] = texture[1]; //spawn position is S
-        textureMap['T'] = texture[2];
-    }
-
-    void loadLevel(int levelId) {
-        ifstream mapFile;
-
-        mapFile.open(levelFiles[levelId]);
-        if (mapFile.is_open()) {
-            mapFile >> sizeX >> sizeY;
-            tile = vector<vector<sf::Sprite>>(sizeX);
-
-            for (int i = 0; i < sizeX; i++) {
-                tile[i] = vector<sf::Sprite>(sizeY);
-                for (int j = 0; j < sizeY; j++) {
-                    char curTile;
-
-                    mapFile >> curTile;
-
-                    setLevelPosition(curTile, j, i);
-
-                    tile[i][j].setTexture(textureMap[curTile]);
-                    tile[i][j].setPosition(SPRITE_SIZE*j, SPRITE_SIZE*i);
-
-                    if (curTile == 'T') {
-                        tower.push_back(Tower(1, 128.0));
-                    }
-                }
-            }
-
-            mapFile.close();
-        }
-        else {
-            cerr << "Error opening level data." << endl;
-        }
-    }
-
-    int mapSizeX() {
-        return sizeX;
-    }
-
-    int mapSizeY() {
-        return sizeY;
-    }
-
-    void setLevelPosition(char curTile, int x, int y){
-        if (curTile == 'S'){
-            spawnx = x;
-            spawny = y;
-        }
-        if (curTile == 'O'){
-            positions.push_back(sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE));
-        }
-    }
-
-    int getSpawnPosX(){
-        return spawnx*SPRITE_SIZE;
-    }
-
-    int getSpawnPosY(){
-        return spawny*SPRITE_SIZE;
-    }
-
-    deque<sf::Vector2f> getPositions(){
-        deque<sf::Vector2f> np;
-        float a, b, initA = getSpawnPosX(), initB = getSpawnPosY();
-        for(deque<sf::Vector2f>::iterator i=positions.begin(); i!=positions.end(); i++) {
-            a = (*i).x;
-            b = (*i).y;
-            np.push_back(sf::Vector2f(initA, initB));
-            if (a == initA && b != initB){
-                for(float i = initB; i <= b; i+=0.1){
-                    np.push_back(sf::Vector2f(a, i));
-                }
-            }else if (a != initA && b == initB){
-                for(float i = initA; i <= a; i+=0.1){
-                    np.push_back(sf::Vector2f(i, b));
-                }
-            }
-            initA = a;
-            initB = b;
-        }
-        return np;
-    }
-
-    sf::Sprite getTile(int x, int y) {
-        return tile[x][y];
-    }
-};
-
-class Minion {
-    float speed, health, initialHealth;
-    int price;
-    sf::Sprite minionSprite;
-    deque<sf::Vector2f> movements;
-    sf::Vector2f currPosition;
-    sf::RectangleShape healthBar;
-
-    public:
-    Minion(string minionType, levelMap lm) {
-        minionSprite.setTexture(*(TextureManager::getTexture(minionType)));
-        minionSprite.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
-        healthBar.setPosition(lm.getSpawnPosX(), lm.getSpawnPosY());
-        movements = lm.getPositions();
-    }
-
-    void draw(sf::RenderTarget& target){
-        target.draw(minionSprite);
-        target.draw(healthBar);
-    }
-
-    void move(sf::Time timeElapsed) {
-        if (movements.size() > 0){
-            sf::Vector2f point = movements.front();
-            setPosition(point);
-            movements.pop_front();
-            minionSprite.setPosition(getPosition().x, getPosition().y);
-            healthBar.setPosition(minionSprite.getPosition().x, minionSprite.getPosition().y);
-        }
-    }
-
-    void setSpeed(float spd){
-        speed = spd;
-    }
-
-    float getSpeed(){
-        return speed;
-    }
-
-    void setHealth(float hlt){
-        if (hlt > 0){
-            health = hlt;
-        }else{
-            health = -hlt;
-        }
-        initialHealth = health; //unaltered after this!
-        updateHealthBar(health);
-    }
-
-    float getHealth(){
-        return health;
-    }
-
-    void updateHealthBar(float hlt){
-        healthBar.setSize(sf::Vector2f(hlt/4, 5));
-        healthBar.setFillColor(sf::Color(100, 250, 50));
-        if (initialHealth*0.5 >= health){
-            healthBar.setFillColor(sf::Color(255,165,0));
-        }
-        if (initialHealth*0.2 >= health){
-            healthBar.setFillColor(sf::Color(255,0,0));
-        }
-    }
-
-    void setPosition(sf::Vector2f position){
-        currPosition = position;
-    }
-
-    sf::Vector2f getPosition(){
-        return currPosition;
-    }
-
-    void damage(float dam){
-        if (isAlive()){
-            health -= dam;
-            if (health < 0) health = 0;
-            updateHealthBar(health);
-        }
-    }
-
-    bool isAlive(){
-        return health > 0;
-    }
-};
 
 int main() {
     sf::Clock timer;
@@ -226,8 +23,8 @@ int main() {
     /*sf::View menu(sf::Vector2f(), sf::Vector2f(256, 672));
     menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));*/
 
-    levelMap thisLevel;
-    thisLevel.loadLevel(1);
+    LevelParser thisLevel;
+    thisLevel.loadLevel("resources/maps/level3.bin");
     
     // needs to name the texture and then call getTexture by its name
     TextureManager::loadTexture("blue", "resources/textures/blue.png");
@@ -269,28 +66,28 @@ int main() {
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-                    Minion m("blue", thisLevel);
+                    Minion m("blue", sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-                    Minion m("green", thisLevel);
+                    Minion m("green", sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-                    Minion m("purple", thisLevel);
+                    Minion m("purple",  sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-                    Minion m("yellow", thisLevel);
+                    Minion m("yellow",  sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
