@@ -1,15 +1,12 @@
 #include "LevelParser.h"
 
-int SPRITE_SIZE = 64;
 int sizeX, sizeY;
-int spawnx = 0, spawny = 0;
+sf::Vector2f minionSpawn;
 map<char, sf::Texture> textureMap;
 vector<sf::Texture> texture;
 vector<vector<sf::Sprite>> tile;
 //vector<Tower> tower;
 deque<sf::Vector2f> positions;
-vector<string> tiles;
-vector<string> paths;
 vector<string> minions;
 vector<string> towers;
 
@@ -39,8 +36,6 @@ void LevelParser::loadLevel(string level) {
 }
 
 void LevelParser::parse(ifstream* mapFile){
-    tiles   = parseLine(mapFile);
-    paths   = parseLine(mapFile);
     minions = parseLine(mapFile);
     towers  = parseLine(mapFile);
     parseLevel(mapFile);
@@ -83,40 +78,35 @@ int LevelParser::mapSizeY() {
 
 void LevelParser::setLevelPosition(char curTile, int x, int y){
     if (curTile == MINION){
-        spawnx = x;
-        spawny = y;
+        minionSpawn = sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE);
     }
     if (curTile == PATH){
         positions.push_back(sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE));
     }
 }
 
-int LevelParser::getSpawnPosX(){
-    return spawnx*SPRITE_SIZE;
-}
-
-int LevelParser::getSpawnPosY(){
-    return spawny*SPRITE_SIZE;
+sf::Vector2f LevelParser::getMinionSpawnPos(){
+    return minionSpawn;
 }
 
 deque<sf::Vector2f> LevelParser::getPath(){
     deque<sf::Vector2f> np;
-    float a, b, initA = getSpawnPosX(), initB = getSpawnPosY();
+    float a, b;
+    sf::Vector2f init = getMinionSpawnPos();
     for(deque<sf::Vector2f>::iterator i=positions.begin(); i!=positions.end(); i++) {
         a = (*i).x;
         b = (*i).y;
-        np.push_back(sf::Vector2f(initA, initB));
-        if (a == initA && b != initB){
-            for(float i = initB; i <= b; i+=0.1){
+        np.push_back(sf::Vector2f(init.x, init.y));
+        if (a == init.x && b != init.y){
+            for(float i = init.y; i <= b; i+=0.1){
                 np.push_back(sf::Vector2f(a, i));
             }
-        }else if (a != initA && b == initB){
-            for(float i = initA; i <= a; i+=0.1){
+        }else if (a != init.x && b == init.y){
+            for(float i = init.x; i <= a; i+=0.1){
                 np.push_back(sf::Vector2f(i, b));
             }
         }
-        initA = a;
-        initB = b;
+        init = sf::Vector2f(a, b);
     }
     return np;
 }

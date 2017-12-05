@@ -9,8 +9,10 @@
 #include "Minion.h"
 #include "Tower.h"
 #include "LevelParser.h"
+#include "Constants.h"
 
 using namespace std;
+using namespace MinionConstants;
 
 int main() {
     sf::Clock timer;
@@ -27,10 +29,10 @@ int main() {
     thisLevel.loadLevel("resources/maps/level4.bin");
     
     // needs to name the texture and then call getTexture by its name
-    TextureManager::loadTexture("blue", "resources/textures/blue.png");
-    TextureManager::loadTexture("green", "resources/textures/green.png");
-    TextureManager::loadTexture("purple", "resources/textures/purple.png");
-    TextureManager::loadTexture("yellow", "resources/textures/yellow.png");
+    TextureManager::loadTexture(WATER_MINION, WATER_MINION);
+    TextureManager::loadTexture(EARTH_MINION, EARTH_MINION);
+    TextureManager::loadTexture(FIRE_MINION, FIRE_MINION);
+    TextureManager::loadTexture(WIND_MINION, WIND_MINION);
 
     vector<Minion> minions;
 
@@ -66,28 +68,28 @@ int main() {
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-                    Minion m("blue", sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
+                    Minion m(WATER_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-                    Minion m("green", sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
+                    Minion m(EARTH_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-                    Minion m("purple",  sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
+                    Minion m(WIND_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-                    Minion m("yellow",  sf::Vector2f(thisLevel.getSpawnPosX(), thisLevel.getSpawnPosY()), thisLevel.getPath());
+                    Minion m(FIRE_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
                     m.setSpeed(10);
                     m.setHealth(100);
 
