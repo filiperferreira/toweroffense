@@ -17,7 +17,7 @@ using namespace MinionConstants;
 int main() {
     sf::Clock timer;
     float minionTime = timer.restart().asSeconds();
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Tower Offense");
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "The Saga of Urkiorus");
     sf::Clock clock;
 
     sf::View view(sf::Vector2f(512, 384), sf::Vector2f(1024, 768));
