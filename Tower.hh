@@ -2,7 +2,7 @@
 #define TOWER_H
 
 #include <SFML/Graphics.hpp>
-#include "TextureManager.h"
+#include "TextureManager.hh"
 
 using namespace std;
 

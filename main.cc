@@ -5,11 +5,11 @@
 #include <deque>
 #include <string>
 
-#include "TextureManager.h"
-#include "Minion.h"
-#include "Tower.h"
-#include "LevelParser.h"
-#include "Constants.h"
+#include "TextureManager.hh"
+#include "Minion.hh"
+#include "Tower.hh"
+#include "LevelParser.hh"
+#include "Constants.hh"
 
 using namespace std;
 using namespace MinionConstants;
@@ -76,21 +76,21 @@ int main() {
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
                     Minion m(EARTH_MINION, thisLevel);
-                    m.setSpeed(10);
+                    m.setSpeed(20);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
                     Minion m(WIND_MINION, thisLevel);
-                    m.setSpeed(10);
+                    m.setSpeed(30);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
                     Minion m(FIRE_MINION, thisLevel);
-                    m.setSpeed(10);
+                    m.setSpeed(15);
                     m.setHealth(100);
 
                     minions.push_back(m);

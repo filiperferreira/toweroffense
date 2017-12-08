@@ -1,4 +1,4 @@
-#include "Minion.h"
+#include "Minion.hh"
 
 Minion::Minion() {
 }

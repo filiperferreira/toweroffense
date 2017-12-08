@@ -21,5 +21,6 @@ namespace MinionConstants{
   const string EARTH_MINION   = "resources/textures/green.png";
   const string FIRE_MINION    = "resources/textures/yellow.png";
   const string WIND_MINION    = "resources/textures/purple.png";
+
 }
 #endif

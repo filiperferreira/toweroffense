@@ -1,4 +1,4 @@
-#include "LevelParser.h"
+#include "LevelParser.hh"
 
 int sizeX, sizeY;
 sf::Vector2f minionSpawn;

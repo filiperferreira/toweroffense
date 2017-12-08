@@ -2,8 +2,8 @@
 #define LEVELPARSER_H
 
 #include <SFML/Graphics.hpp>
-#include "TextureManager.h"
-#include "Constants.h"
+#include "TextureManager.hh"
+#include "Constants.hh"
 #include <string>
 #include <vector>
 #include <deque>

@@ -1,4 +1,4 @@
-#include "Tower.h"
+#include "Tower.hh"
 
 int damage;
 float range;

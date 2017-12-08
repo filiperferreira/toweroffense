@@ -2,8 +2,8 @@
 #define MINION_H
 
 #include <SFML/Graphics.hpp>
-#include "TextureManager.h"
-#include "LevelParser.h"
+#include "TextureManager.hh"
+#include "LevelParser.hh"
 #include <string>
 #include <vector>
 #include <deque>
