@@ -6,7 +6,6 @@ map<char, sf::Texture> textureMap;
 vector<sf::Texture> texture;
 vector<vector<sf::Sprite>> tile;
 //vector<Tower> tower;
-deque<sf::Vector2f> positions;
 vector<string> minions;
 vector<string> towers;
 deque< pair<sf::Vector2f,sf::Vector2f> > minionMovements;
@@ -81,9 +80,6 @@ int LevelParser::mapSizeY() {
 void LevelParser::setLevelPosition(char curTile, int x, int y){
     if (curTile == SPAWN){
         minionSpawn = sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE);
-    }
-    if (curTile == PATH){
-        positions.push_back(sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE));
     }
 }
 

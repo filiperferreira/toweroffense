@@ -17,14 +17,15 @@
 using namespace std;
 
 class LevelParser {
-   int SPRITE_SIZE = 64;
    int sizeX, sizeY;
-   int spawnx = 0, spawny = 0;
+   sf::Vector2f minionSpawn;
    map<char, sf::Texture> textureMap;
    vector<sf::Texture> texture;
    vector<vector<sf::Sprite>> tile;
    //vector<Tower> tower;
-   deque<sf::Vector2f> positions;
+   vector<string> minions;
+   vector<string> towers;
+   deque< pair<sf::Vector2f,sf::Vector2f> > minionMovements;
 
 private:
    template<typename Out>
