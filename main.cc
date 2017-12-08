@@ -10,107 +10,31 @@
 #include "Tower.hh"
 #include "LevelParser.hh"
 #include "Constants.hh"
+#include "Screens.hh"
 
 using namespace std;
 using namespace MinionConstants;
 
 int main() {
-    sf::Clock timer;
-    float minionTime = timer.restart().asSeconds();
+
     sf::RenderWindow window(sf::VideoMode(1024, 768), "The Saga of Urkiorus");
-    sf::Clock clock;
 
-    sf::View view(sf::Vector2f(512, 384), sf::Vector2f(1024, 768));
-    view.setViewport(sf::FloatRect(0, 0, 1, 1));
-    /*sf::View menu(sf::Vector2f(), sf::Vector2f(256, 672));
-    menu.setViewport(sf::FloatRect(0, 0, 0.25, 0.875));*/
-
-    LevelParser thisLevel;
-    thisLevel.loadLevel("resources/maps/level4.bin");
-    
     // needs to name the texture and then call getTexture by its name
     TextureManager::loadTexture(WATER_MINION, WATER_MINION);
     TextureManager::loadTexture(EARTH_MINION, EARTH_MINION);
     TextureManager::loadTexture(FIRE_MINION, FIRE_MINION);
     TextureManager::loadTexture(WIND_MINION, WIND_MINION);
 
-    vector<Minion> minions;
+    std::vector<ScreenManager*> screens;
+    int screen = 0;
+    
+    Level s0("resources/maps/level4.bin");
+    screens.push_back(&s0);
+    Level s1("resources/maps/level3.bin");
+    screens.push_back(&s1);
 
-    while (window.isOpen()) {
-        sf::Event event;
-        sf::Time timeElapsed;
-
-        timeElapsed = clock.restart();
-
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-            if (event.type == sf::Event::KeyPressed) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    if (view.getCenter().x - 512 > 0) {
-                        view.move(-64, 0);
-                    }
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    if (view.getCenter().x + 512 < thisLevel.mapSizeX() * 64) {
-                        view.move(64, 0);
-                    }
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    if (view.getCenter().y - 384 > 0) {
-                        view.move(0, -64);
-                    }
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    if (view.getCenter().y + 384 < thisLevel.mapSizeY() * 64) {
-                        view.move(0, 64);
-                    }
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-                    Minion m(WATER_MINION, thisLevel);
-                    m.setSpeed(10);
-                    m.setHealth(100);
-
-                    minions.push_back(m);
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-                    Minion m(EARTH_MINION, thisLevel);
-                    m.setSpeed(20);
-                    m.setHealth(100);
-
-                    minions.push_back(m);
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-                    Minion m(WIND_MINION, thisLevel);
-                    m.setSpeed(30);
-                    m.setHealth(100);
-
-                    minions.push_back(m);
-                }
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-                    Minion m(FIRE_MINION, thisLevel);
-                    m.setSpeed(15);
-                    m.setHealth(100);
-
-                    minions.push_back(m);
-                }
-            }
-        }
-
-        window.clear();
-
-        window.setView(view);
-        for (int i = 0; i < thisLevel.mapSizeX(); i++) {
-            for (int j = 0; j < thisLevel.mapSizeY(); j++) {
-                window.draw(thisLevel.getTile(i, j));
-            }
-        }
-        for (int i = 0; i < minions.size(); i++) {
-            minions[i].move(timeElapsed);
-            minions[i].draw(window);
-        }
-        window.display();
+    while (screen >= 0) {
+        screen = screens[screen]->Run(window);
     }
 
     return 0;

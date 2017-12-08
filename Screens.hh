@@ -5,7 +5,6 @@
 #include "ScreenManager.hh"
 
 //Including each screen of application
-#include "screen_0.hh"
-#include "screen_1.hh"
+#include "Level.hh"
 
 #endif // SCREENS_HPP_INCLUDED
