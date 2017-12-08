@@ -61,7 +61,7 @@ int Level::Run(sf::RenderWindow &window) {
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
                     Minion m(WATER_MINION, thisLevel);
-                    m.setSpeed(1);
+                    m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);

@@ -1,9 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <fstream>
-#include <iostream>
 #include <vector>
-#include <deque>
-#include <string>
 
 #include "TextureManager.hh"
 #include "Minion.hh"
@@ -28,10 +24,12 @@ int main() {
     std::vector<ScreenManager*> screens;
     int screen = 0;
     
-    Level s0("resources/maps/level4.bin");
+    Menu s0;
     screens.push_back(&s0);
-    Level s1("resources/maps/level3.bin");
+    Level s1("resources/maps/level4.bin");
     screens.push_back(&s1);
+    Level s2("resources/maps/level3.bin");
+    screens.push_back(&s2);
 
     while (screen >= 0) {
         screen = screens[screen]->Run(window);
