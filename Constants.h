@@ -11,7 +11,7 @@ namespace LevelConstants {
 
   const char GRASS         = 'X';
   const char PATH          = 'O';
-  const char MINION        = 'S';
+  const char SPAWN         = 'S';
   const char TOWER         = 'T';
 }
 

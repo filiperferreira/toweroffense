@@ -68,28 +68,28 @@ int main() {
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-                    Minion m(WATER_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
+                    Minion m(WATER_MINION, thisLevel);
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-                    Minion m(EARTH_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
+                    Minion m(EARTH_MINION, thisLevel);
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-                    Minion m(WIND_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
+                    Minion m(WIND_MINION, thisLevel);
                     m.setSpeed(10);
                     m.setHealth(100);
 
                     minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-                    Minion m(FIRE_MINION, thisLevel.getMinionSpawnPos(), thisLevel.getPath());
+                    Minion m(FIRE_MINION, thisLevel);
                     m.setSpeed(10);
                     m.setHealth(100);
 

@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+#include <utility> 
 
 using namespace std;
 
@@ -37,11 +38,12 @@ public:
    int mapSizeY();
    void setLevelPosition(char curTile, int x, int y);
    sf::Vector2f getMinionSpawnPos();
-   deque<sf::Vector2f> getPath();
+   deque< pair<sf::Vector2f,sf::Vector2f> > getPath();
    sf::Sprite getTile(int x, int y);
    void parse(ifstream* mapFile);
    vector<string> parseLine(ifstream* mapFile);
    void parseLevel(ifstream* mapFile);
+   deque< pair<sf::Vector2f,sf::Vector2f> > parsePath(ifstream* mapFile);
 };
 
 #endif

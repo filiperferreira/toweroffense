@@ -5,15 +5,15 @@ Minion::Minion() {
 
 float speed, health, initialHealth;
 sf::Sprite minionSprite;
-deque<sf::Vector2f> movements;
+deque<pair<sf::Vector2f,sf::Vector2f>> movements;
 sf::Vector2f currPosition;
 sf::RectangleShape healthBar;
 
-Minion::Minion(string minionType, sf::Vector2f initPos, deque<sf::Vector2f> initMovements) {
+Minion::Minion(string minionType, LevelParser lp) {
     minionSprite.setTexture(*(TextureManager::getTexture(minionType)));
-    minionSprite.setPosition(initPos.x, initPos.y);
-    healthBar.setPosition(initPos.x, initPos.y);
-    movements = initMovements;
+    minionSprite.setPosition(lp.getMinionSpawnPos().x, lp.getMinionSpawnPos().y);
+    healthBar.setPosition(minionSprite.getPosition().x, minionSprite.getPosition().y);
+    movements = lp.getPath();
 }
 
 void Minion::draw(sf::RenderTarget& target){
@@ -21,13 +21,45 @@ void Minion::draw(sf::RenderTarget& target){
     target.draw(healthBar);
 }
 
+sf::Vector2f Minion::normalize(sf::Vector2f& source){
+    float length = sqrt((source.x * source.x) + (source.y * source.y));
+    if (length != 0)
+        return sf::Vector2f (source.x / length, source.y / length);
+    else
+        return source;
+}
+
+//moves from point a to b
+bool Minion::moveTo(sf::Time timeElapsed, sf::Vector2f from, sf::Vector2f to){
+    sf::Vector2f pos = to - from;
+    sf::Vector2f dir = normalize(pos);
+    sf::Vector2f w = minionSprite.getPosition() - to;
+    float delta = timeElapsed.asSeconds() * 60 * speed*0.1;
+    if (from.y == to.y && from.x < to.x){
+        //printf("move forwards\n");
+        minionSprite.move( delta * dir.x, delta * dir.y );
+    }else if (from.y == to.y && from.x >= to.x){
+        //printf("move backwards\n");
+        minionSprite.move( delta * dir.x, delta * -dir.y);
+    }else if (from.x == to.x && from.y < to.y){
+        //printf("move down\n");
+        minionSprite.move( 0.f, delta  * dir.y );
+    }else if (from.x == to.x && from.y >=  to.y){
+        //printf("move up\n");
+        minionSprite.move( delta * -dir.x, delta  * dir.y );
+    }
+    healthBar.setPosition(minionSprite.getPosition().x, minionSprite.getPosition().y);
+    return int(w.x) == int(w.y) && int(w.y) == 0;
+}
+
 void Minion::move(sf::Time timeElapsed) {
     if (movements.size() > 0){
-        sf::Vector2f point = movements.front();
-        setPosition(point);
-        movements.pop_front();
-        minionSprite.setPosition(getPosition().x, getPosition().y);
-        healthBar.setPosition(minionSprite.getPosition().x, minionSprite.getPosition().y);
+        pair<sf::Vector2f,sf::Vector2f> point = movements.front();
+        sf::Vector2f from = point.first;
+        sf::Vector2f to = point.second;
+        if (moveTo(timeElapsed, from, to)){
+            movements.pop_front(); //change direction
+        }
     }
 }
 

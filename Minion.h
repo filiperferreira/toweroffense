@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextureManager.h"
+#include "LevelParser.h"
 #include <string>
 #include <vector>
 #include <deque>
@@ -13,14 +14,14 @@ using namespace std;
 class Minion {
    float speed, health, initialHealth;
    sf::Sprite minionSprite;
-   deque<sf::Vector2f> movements;
+   deque<pair<sf::Vector2f,sf::Vector2f>> movements;
    sf::Vector2f currPosition;
    sf::RectangleShape healthBar;
 
    Minion();
 public:
    ~Minion();
-   Minion(string minionType, sf::Vector2f initPos, deque<sf::Vector2f> initMovements);
+   Minion(string minionType, LevelParser lp);
    void draw(sf::RenderTarget& target);
    void move(sf::Time timeElapsed);
    void updateHealthBar(float hlt);
@@ -34,6 +35,8 @@ public:
    float getSpeed();
    void setHealth(float hlt);
    float getHealth();
+   sf::Vector2f normalize(sf::Vector2f& source);
+   bool moveTo(sf::Time timeElapsed, sf::Vector2f from, sf::Vector2f to);
 };
 
 #endif

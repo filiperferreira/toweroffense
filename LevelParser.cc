@@ -9,6 +9,7 @@ vector<vector<sf::Sprite>> tile;
 deque<sf::Vector2f> positions;
 vector<string> minions;
 vector<string> towers;
+deque< pair<sf::Vector2f,sf::Vector2f> > minionMovements;
 
 using namespace LevelConstants;
 
@@ -20,7 +21,7 @@ LevelParser::LevelParser() {
 
     textureMap[GRASS]  = texture[0];
     textureMap[PATH]   = texture[1];
-    textureMap[MINION] = texture[1]; //spawn position is S
+    textureMap[SPAWN]  = texture[1]; //spawn position is S
     textureMap[TOWER]  = texture[2];
 }
 
@@ -39,6 +40,7 @@ void LevelParser::parse(ifstream* mapFile){
     minions = parseLine(mapFile);
     towers  = parseLine(mapFile);
     parseLevel(mapFile);
+    minionMovements = parsePath(mapFile);
 }
 
 /* parses the actual level layout */
@@ -77,7 +79,7 @@ int LevelParser::mapSizeY() {
 }
 
 void LevelParser::setLevelPosition(char curTile, int x, int y){
-    if (curTile == MINION){
+    if (curTile == SPAWN){
         minionSpawn = sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE);
     }
     if (curTile == PATH){
@@ -89,26 +91,28 @@ sf::Vector2f LevelParser::getMinionSpawnPos(){
     return minionSpawn;
 }
 
-deque<sf::Vector2f> LevelParser::getPath(){
-    deque<sf::Vector2f> np;
-    float a, b;
-    sf::Vector2f init = getMinionSpawnPos();
-    for(deque<sf::Vector2f>::iterator i=positions.begin(); i!=positions.end(); i++) {
-        a = (*i).x;
-        b = (*i).y;
-        np.push_back(sf::Vector2f(init.x, init.y));
-        if (a == init.x && b != init.y){
-            for(float i = init.y; i <= b; i+=0.1){
-                np.push_back(sf::Vector2f(a, i));
-            }
-        }else if (a != init.x && b == init.y){
-            for(float i = init.x; i <= a; i+=0.1){
-                np.push_back(sf::Vector2f(i, b));
-            }
-        }
-        init = sf::Vector2f(a, b);
+deque< pair<sf::Vector2f,sf::Vector2f> > LevelParser::getPath(){
+    return minionMovements;
+}
+
+deque<pair<sf::Vector2f,sf::Vector2f>> LevelParser::parsePath(ifstream* mapFile){
+    deque<pair<sf::Vector2f,sf::Vector2f>> movements;
+    int x1, y1, x2, y2;
+    while (!(*mapFile).eof()){
+        std::vector<std::string> pos = parseLine(mapFile);
+        if (!pos.empty()){        
+            x1 = atoi(pos[0].c_str());
+            y1 = atoi(pos[1].c_str());
+            x2 = atoi(pos[2].c_str());
+            y2 = atoi(pos[3].c_str());
+
+            sf::Vector2f from = sf::Vector2f(x1*SPRITE_SIZE, y1*SPRITE_SIZE);
+            sf::Vector2f to = sf::Vector2f(x2*SPRITE_SIZE, y2*SPRITE_SIZE);
+            pair <sf::Vector2f, sf::Vector2f> point (from, to);
+            movements.push_back(point);
+        }  
     }
-    return np;
+    return movements;
 }
 
 sf::Sprite LevelParser::getTile(int x, int y) {
