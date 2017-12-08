@@ -24,8 +24,8 @@ int main() {
     std::vector<ScreenManager*> screens;
     int screen = 0;
     
-    Menu s0;
-    screens.push_back(&s0);
+    //Menu s0;
+    //screens.push_back(&s0);
     Level s1("resources/maps/level4.bin");
     screens.push_back(&s1);
     Level s2("resources/maps/level3.bin");
