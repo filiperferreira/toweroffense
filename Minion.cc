@@ -8,10 +8,11 @@ sf::Sprite minionSprite;
 deque<pair<sf::Vector2f,sf::Vector2f>> movements;
 sf::Vector2f currPosition;
 sf::RectangleShape healthBar;
+int OFFSET = 10;
 
 Minion::Minion(string minionType, LevelParser lp) {
     minionSprite.setTexture(*(TextureManager::getTexture(minionType)));
-    minionSprite.setPosition(lp.getMinionSpawnPos().x, lp.getMinionSpawnPos().y);
+    minionSprite.setPosition(lp.getMinionSpawnPos().x+OFFSET, lp.getMinionSpawnPos().y+OFFSET);
     healthBar.setPosition(minionSprite.getPosition().x, minionSprite.getPosition().y);
     movements = lp.getPath();
 }
@@ -33,7 +34,7 @@ sf::Vector2f Minion::normalize(sf::Vector2f& source){
 bool Minion::moveTo(sf::Time timeElapsed, sf::Vector2f from, sf::Vector2f to){
     sf::Vector2f pos = to - from;
     sf::Vector2f dir = normalize(pos);
-    sf::Vector2f w = minionSprite.getPosition() - to;
+    sf::Vector2f w = minionSprite.getPosition() - sf::Vector2f(OFFSET,OFFSET) - to;
     float delta = timeElapsed.asSeconds() * 60 * speed*0.1;
     if (from.y == to.y && from.x < to.x){
         //printf("move forwards\n");
