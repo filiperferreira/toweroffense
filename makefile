@@ -22,3 +22,6 @@ toweroffense: main.o TextureManager.o LevelParser.o Minion.o Tower.o
 
 clean:
 	rm -rf toweroffense.exe *.o
+
+run:
+	./toweroffense
