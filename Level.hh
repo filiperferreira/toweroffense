@@ -1,5 +1,5 @@
 #include <iostream>
-#include <String>
+#include <string>
 #include "Minion.hh"
 #include "LevelParser.hh"
 #include "Constants.hh"
