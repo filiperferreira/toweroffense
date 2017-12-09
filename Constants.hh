@@ -6,8 +6,8 @@
 namespace LevelConstants {
   const int SPRITE_SIZE = 64;
 
-  const string GRASS_TILE  = "resources/textures/grass.png";
-  const string GROUND_TILE = "resources/textures/ground.png";
+  const string GRASS_TILE  = "resources/textures/nonpath.png";
+  const string GROUND_TILE = "resources/textures/path.png";
 
   const char GRASS         = 'X';
   const char PATH          = 'O';

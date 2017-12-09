@@ -24,14 +24,14 @@ int Menu::Run(sf::RenderWindow &window) {
     TextureManager::loadTexture("title",      "resources/textures/title.png");
 
     play.setTexture(*(TextureManager::getTexture("buttons")));
-    play.setTextureRect(sf::IntRect(0, 0, 40, 21));
-    play.setPosition(sf::Vector2f(450, 300));
-    play.setScale(sf::Vector2f(4, 4));
+    play.setTextureRect(sf::IntRect(0, 0, 285, 149));
+    play.setPosition(sf::Vector2f(180, 550));
+    //play.setScale(sf::Vector2f(4, 4));
 
     exit.setTexture(*(TextureManager::getTexture("buttons")));
-    exit.setTextureRect(sf::IntRect(41, 0, 40, 21));
-    exit.setPosition(sf::Vector2f(450, 400));
-    exit.setScale(sf::Vector2f(4, 4));
+    exit.setTextureRect(sf::IntRect(282, 0, 285, 149));
+    exit.setPosition(sf::Vector2f(540, 550));
+    //exit.setScale(sf::Vector2f(4, 4));
 
     sf::Sprite background(*(TextureManager::getTexture("title")));
 
@@ -45,12 +45,12 @@ int Menu::Run(sf::RenderWindow &window) {
             //Key pressed
             if (Event.type == sf::Event::KeyPressed){
                 switch (Event.key.code){
-                case sf::Keyboard::Up:
+                case sf::Keyboard::Left:
                     menu = 0;
                     play.setTexture(*(TextureManager::getTexture("highlights")));
                     exit.setTexture(*(TextureManager::getTexture("buttons")));
                     break;
-                case sf::Keyboard::Down:
+                case sf::Keyboard::Right:
                     exit.setTexture(*(TextureManager::getTexture("highlights")));
                     play.setTexture(*(TextureManager::getTexture("buttons")));
                     menu = 1;
