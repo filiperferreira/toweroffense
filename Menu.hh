@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Audio/Music.hpp>
 
 class Menu : public ScreenManager {
 private:
@@ -34,6 +34,14 @@ int Menu::Run(sf::RenderWindow &window) {
     //exit.setScale(sf::Vector2f(4, 4));
 
     sf::Sprite background(*(TextureManager::getTexture("title")));
+
+    sf::Music music;
+    if (!music.openFromFile("resources/sounds/theme.ogg")) {
+        return -1;
+    }
+    music.setVolume(50);         // reduce the volume
+    music.setLoop(true);         // make it loop
+    music.play();
 
     bool running = true;
 
