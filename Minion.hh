@@ -12,6 +12,7 @@ using namespace std;
 
 class Minion {
    float speed, health, initialHealth;
+   int price;
    sf::Sprite minionSprite;
    deque<pair<sf::Vector2f,sf::Vector2f>> movements;
    sf::RectangleShape healthBar;
@@ -32,6 +33,8 @@ public:
    float getHealth();
    sf::Vector2f normalize(sf::Vector2f& source);
    bool moveTo(sf::Time timeElapsed, sf::Vector2f from, sf::Vector2f to);
+   int getPrice();
+   void setPrice(int price);
 };
 
 #endif

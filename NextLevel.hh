@@ -30,6 +30,10 @@ NextLevel::NextLevel(int levelid) {
             unlockable = Level2::UNLOCKABLE;
             nextscreen = 5;
         break;
+        case LevelConstants::LEVEL3_ID:
+            unlockable = Level3::UNLOCKABLE;
+            nextscreen = -1;
+        break;
     }
 }
 

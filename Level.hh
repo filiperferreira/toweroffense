@@ -2,6 +2,7 @@
 #include <string>
 #include "Minion.hh"
 #include "LevelParser.hh"
+#include "Player.hh"
 #include "Constants.hh"
 
 #include <SFML/Graphics.hpp>
@@ -12,6 +13,7 @@ using namespace MinionConstants;
 class Level : public ScreenManager {
 private:
 	LevelParser thisLevel;
+    Player* player;
 	sf::View view;
 	vector<Minion> minions;
     int minionCount = 0;
@@ -44,6 +46,7 @@ Level::Level(int levelid) {
             nextscreen = 6;
         break;
     }
+    player = new Player(levelid);
 }
 
 bool eop(sf::Vector2f a, sf::Vector2f b){
@@ -147,6 +150,7 @@ int Level::Run(sf::RenderWindow &window) {
         if (minionCount > 4){
             return nextscreen;
         }
+        player->draw(window, view);
         window.display();
     }
 	//Never reaching this point normally, but just in case, exit the application

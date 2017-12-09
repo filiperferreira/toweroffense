@@ -7,6 +7,7 @@ float speed, health, initialHealth;
 sf::Sprite minionSprite;
 deque<pair<sf::Vector2f,sf::Vector2f>> movements;
 sf::RectangleShape healthBar;
+int price;
 int OFFSET = 10;
 
 Minion::Minion(string minionType, LevelParser lp) {
@@ -65,6 +66,14 @@ void Minion::move(sf::Time timeElapsed) {
 
 void Minion::setSpeed(float spd){
     speed = spd;
+}
+
+void Minion::setPrice(int p){
+    price = p;
+}
+
+int Minion::getPrice(){
+    return price;
 }
 
 float Minion::getSpeed(){

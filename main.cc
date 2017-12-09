@@ -17,6 +17,12 @@ void loadTextures(){
     TextureManager::loadTexture(EARTH_MINION, EARTH_MINION);
     TextureManager::loadTexture(FIRE_MINION, FIRE_MINION);
     TextureManager::loadTexture(WIND_MINION, WIND_MINION);
+
+    TextureManager::loadTexture(MenuConstants::MENU, MenuConstants::MENU);
+    TextureManager::loadTexture(MenuConstants::SLIMIE, MenuConstants::SLIMIE);
+    TextureManager::loadTexture(MenuConstants::SKULLIE, MenuConstants::SKULLIE);
+    TextureManager::loadTexture(MenuConstants::GHOSTIE, MenuConstants::GHOSTIE);
+    TextureManager::loadTexture(MenuConstants::BATSIE, MenuConstants::BATSIE);
 }
 
 int main() {
@@ -45,6 +51,9 @@ int main() {
     
     Level s3(LevelConstants::LEVEL3_ID);
     screens.push_back(&s3);
+
+    NextLevel send(LevelConstants::LEVEL3_ID);
+    screens.push_back(&send);
     
     while (screen >= 0) {
         screen = screens[screen]->Run(window);

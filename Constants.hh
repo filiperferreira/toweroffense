@@ -48,4 +48,14 @@ namespace MinionConstants{
   const string WIND_MINION    = "resources/textures/purple.png";
 
 }
+
+namespace MenuConstants {  
+
+  const string MENU     = "resources/textures/menu.png";
+  const string SLIMIE   = "resources/textures/slimie_card.png";
+  const string SKULLIE  = "resources/textures/skullie_card.png";
+  const string GHOSTIE  = "resources/textures/ghostie_card.png";
+  const string BATSIE   = "resources/textures/batsie_card.png";
+
+}
 #endif
