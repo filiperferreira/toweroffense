@@ -86,7 +86,7 @@ sf::Vector2f LevelParser::getMinionSpawnPos(){
     return minionSpawn;
 }
 
-sf::Vector2f LevelParser::endOfPath(){
+sf::Vector2f LevelParser::getEndOfPath(){
     return endOfPath;
 }
 

@@ -38,7 +38,7 @@ public:
    int mapSizeY();
    void setLevelPosition(char curTile, int x, int y);
    sf::Vector2f getMinionSpawnPos();
-   sf::Vector2f endOfPath();
+   sf::Vector2f getEndOfPath();
    deque< pair<sf::Vector2f,sf::Vector2f> > getPath();
    sf::Sprite getTile(int x, int y);
    void parse(ifstream* mapFile);
