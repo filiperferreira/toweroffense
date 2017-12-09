@@ -137,12 +137,14 @@ int Level::Run(sf::RenderWindow &window) {
         for (int i = 0; i < minions.size(); i++) {
             minions[i].move(timeElapsed);
             minions[i].draw(window);
+            //printf("%f %f, %f %f\n", minions[0].getPosition().x, minions[0].getPosition().y, thisLevel.getEndOfPath().x, thisLevel.getEndOfPath().y);
             if (eop(minions[i].getPosition(), thisLevel.getEndOfPath())){
+                //printf("%f %f", thisLevel.getEndOfPath().x, thisLevel.getEndOfPath().y);
                 minionCount++;
                 minions.erase(minions.begin()+i);
             }
         }
-        if (minionCount > 4){ //rushed end of game criteria
+        if (minionCount > 4){
             return nextscreen;
         }
         window.display();
