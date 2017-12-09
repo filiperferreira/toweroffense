@@ -18,7 +18,7 @@ using namespace std;
 
 class LevelParser {
    int sizeX, sizeY;
-   sf::Vector2f minionSpawn;
+   sf::Vector2f minionSpawn, guardianPos;
    map<char, sf::Texture> textureMap;
    vector<sf::Texture> texture;
    vector<vector<sf::Sprite>> tile;
@@ -39,6 +39,7 @@ public:
    int mapSizeY();
    void setLevelPosition(char curTile, int x, int y);
    sf::Vector2f getMinionSpawnPos();
+   sf::Vector2f getGuardianPos();
    deque< pair<sf::Vector2f,sf::Vector2f> > getPath();
    sf::Sprite getTile(int x, int y);
    void parse(ifstream* mapFile);

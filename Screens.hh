@@ -7,5 +7,6 @@
 //Including each screen of application
 #include "Level.hh"
 #include "Menu.hh"
+#include "NextLevel.hh"
 
 #endif // SCREENS_HPP_INCLUDED

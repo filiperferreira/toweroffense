@@ -11,7 +11,9 @@ public:
 };
 
 Menu::Menu(void) {
-    playing = false;
+    playing       = false;
+    nextscreen    = 1;
+    exitscreen    = -1;
 }
 
 int Menu::Run(sf::RenderWindow &window) {
@@ -37,7 +39,7 @@ int Menu::Run(sf::RenderWindow &window) {
 
     sf::Music music;
     if (!music.openFromFile("resources/sounds/theme.ogg")) {
-        return -1;
+        return exitscreen;
     }
     music.setVolume(50);         // reduce the volume
     music.setLoop(true);         // make it loop
@@ -48,7 +50,7 @@ int Menu::Run(sf::RenderWindow &window) {
     while(running){
         while(window.pollEvent(Event)){
             if (Event.type == sf::Event::Closed) {
-                return (-1);
+                return (exitscreen);
             }
             //Key pressed
             if (Event.type == sf::Event::KeyPressed){
@@ -67,10 +69,10 @@ int Menu::Run(sf::RenderWindow &window) {
                     if (menu == 0){
                         //Let's get play !
                         playing = true;
-                        return (1);
+                        return (nextscreen);
                     } else {
                         //Let's get work...
-                        return (-1);
+                        return (exitscreen);
                     }
                     break;
                 default:
@@ -87,5 +89,5 @@ int Menu::Run(sf::RenderWindow &window) {
         window.display();
     }
 	//Never reaching this point normally, but just in case, exit the application
-	return -1;
+	return exitscreen;
 }

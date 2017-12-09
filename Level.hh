@@ -5,6 +5,7 @@
 #include "Constants.hh"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 using namespace MinionConstants;
 
@@ -14,20 +15,48 @@ private:
 	sf::View view;
 	vector<Minion> minions;
 	sf::Clock clock;
+    string levelfile;
+    string musicfile;
+    int nextscreen; 
 
 public:
-	Level(std::string level);
+	Level(int level);
 	virtual int Run(sf::RenderWindow &App);
 };
 
-Level::Level(std::string level) {
-	thisLevel.loadLevel(level);
+Level::Level(int levelid) {
+    switch(levelid){
+        case LevelConstants::LEVEL1_ID:
+            levelfile  = Level1::LEVEL_FILE;
+            musicfile  = Level1::MUSIC_FILE;
+            nextscreen = 2;
+        break;
+        case LevelConstants::LEVEL2_ID:
+            levelfile = Level2::LEVEL_FILE;
+            musicfile = Level2::MUSIC_FILE;
+            nextscreen = 4;
+        break;
+        case LevelConstants::LEVEL3_ID:
+            levelfile = Level3::LEVEL_FILE;
+            musicfile = Level3::MUSIC_FILE;
+            nextscreen = 6;
+        break;
+    }
+	thisLevel.loadLevel(levelfile);
 	view.setCenter(sf::Vector2f(512, 384));
 	view.setSize(sf::Vector2f(1024, 768));
 	view.setViewport(sf::FloatRect(0, 0, 1, 1));
 }
 
 int Level::Run(sf::RenderWindow &window) {
+    sf::Music music;
+    if (!music.openFromFile(musicfile)) {
+        return -1;
+    }
+    music.setVolume(50);         // reduce the volume
+    music.setLoop(true);         // make it loop
+    music.play();
+
     while (window.isOpen()) {
         sf::Event event;
         sf::Time timeElapsed;
