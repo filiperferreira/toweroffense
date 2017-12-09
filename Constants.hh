@@ -25,7 +25,6 @@ namespace LevelConstants {
 namespace Level1 {
   const string LEVEL_FILE = "resources/maps/level1.bin";
   const string MUSIC_FILE = "resources/sounds/level1.ogg";
-  const string GUARDIAN   = "resources/textures/guardian.png";
   const string UNLOCKABLE = "resources/textures/level1_unlockable.png";
 }
 
@@ -38,7 +37,7 @@ namespace Level2 {
 namespace Level3 {
   const string LEVEL_FILE = "resources/maps/level3.bin";
   const string MUSIC_FILE = "resources/sounds/level3.ogg";
-
+  const string UNLOCKABLE = "resources/textures/endgame.png";
 }
 
 namespace MinionConstants{  

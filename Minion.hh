@@ -26,8 +26,6 @@ public:
    void move(sf::Time timeElapsed);
    void updateHealthBar(float hlt);
    void damage(float dam);
-
-   //getters and setters
    bool isAlive();
    void setPosition(sf::Vector2f position);
    sf::Vector2f getPosition();

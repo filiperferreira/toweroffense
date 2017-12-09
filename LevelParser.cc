@@ -1,11 +1,10 @@
 #include "LevelParser.hh"
 
 int sizeX, sizeY;
-sf::Vector2f minionSpawn, guardianPos;
+sf::Vector2f minionSpawn, endOfPath;
 map<char, sf::Texture> textureMap;
 vector<sf::Texture> texture;
 vector<vector<sf::Sprite>> tile;
-//vector<Tower> tower;
 vector<string> minions;
 vector<string> towers;
 deque< pair<sf::Vector2f,sf::Vector2f> > minionMovements;
@@ -22,7 +21,6 @@ LevelParser::LevelParser() {
     textureMap[PATH]     = texture[1];
     textureMap[SPAWN]    = texture[1]; //spawn position is S
     textureMap[TOWER]    = texture[2];
-    textureMap[GUARDIAN] = texture[1];
 }
 
 void LevelParser::loadLevel(string level) {
@@ -82,17 +80,14 @@ void LevelParser::setLevelPosition(char curTile, int x, int y){
     if (curTile == SPAWN){
         minionSpawn = sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE);
     }
-    if (curTile == GUARDIAN){
-        guardianPos = sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE);
-    }
 }
 
 sf::Vector2f LevelParser::getMinionSpawnPos(){
     return minionSpawn;
 }
 
-sf::Vector2f LevelParser::getGuardianPos(){
-    return guardianPos;
+sf::Vector2f LevelParser::endOfPath(){
+    return endOfPath;
 }
 
 deque< pair<sf::Vector2f,sf::Vector2f> > LevelParser::getPath(){
@@ -116,6 +111,7 @@ deque<pair<sf::Vector2f,sf::Vector2f>> LevelParser::parsePath(ifstream* mapFile)
             movements.push_back(point);
         }  
     }
+    endOfPath = movements.back().second;
     return movements;
 }
 

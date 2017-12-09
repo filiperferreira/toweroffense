@@ -4,6 +4,8 @@
 class Menu : public ScreenManager {
 private:
     bool playing;
+    int nextscreen = 1; 
+    int exitscreen = -1;
 
 public:
 	Menu(void);
@@ -12,8 +14,6 @@ public:
 
 Menu::Menu(void) {
     playing       = false;
-    nextscreen    = 1;
-    exitscreen    = -1;
 }
 
 int Menu::Run(sf::RenderWindow &window) {

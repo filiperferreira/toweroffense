@@ -22,11 +22,11 @@ public:
 
 NextLevel::NextLevel(int levelid) {
     switch(levelid){
-        case LevelConstants::LEVEL2_ID:
+        case LevelConstants::LEVEL1_ID:
             unlockable = Level1::UNLOCKABLE;
             nextscreen = 3;
         break;
-        case LevelConstants::LEVEL3_ID:
+        case LevelConstants::LEVEL2_ID:
             unlockable = Level2::UNLOCKABLE;
             nextscreen = 5;
         break;
@@ -51,18 +51,13 @@ int NextLevel::Run(sf::RenderWindow &window) {
             if (Event.type == sf::Event::Closed) {
                 return (-1);
             }
-            //Key pressed
             if (Event.type == sf::Event::KeyPressed){
-                if (sf::Keyboard::Return)
-                    return (nextscreen);
+                return (nextscreen);
             }
         }
-        //Clearing screen
         window.clear();
-        //Drawing
         window.draw(background);
         window.display();
     }
-    //Never reaching this point normally, but just in case, exit the application
     return -1;
 }

@@ -17,7 +17,6 @@ void loadTextures(){
     TextureManager::loadTexture(EARTH_MINION, EARTH_MINION);
     TextureManager::loadTexture(FIRE_MINION, FIRE_MINION);
     TextureManager::loadTexture(WIND_MINION, WIND_MINION);
-    TextureManager::loadTexture(Level1::GUARDIAN, Level1::GUARDIAN);
 }
 
 int main() {
@@ -35,13 +34,13 @@ int main() {
     Level s1(LevelConstants::LEVEL1_ID);
     screens.push_back(&s1);
 
-    NextLevel s12(LevelConstants::LEVEL2_ID);
+    NextLevel s12(LevelConstants::LEVEL1_ID);
     screens.push_back(&s12);
     
     Level s2(LevelConstants::LEVEL2_ID);
     screens.push_back(&s2);
 
-    NextLevel s23(LevelConstants::LEVEL3_ID);
+    NextLevel s23(LevelConstants::LEVEL2_ID);
     screens.push_back(&s23);
     
     Level s3(LevelConstants::LEVEL3_ID);
