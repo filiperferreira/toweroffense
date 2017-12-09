@@ -28,12 +28,10 @@ int Menu::Run(sf::RenderWindow &window) {
     play.setTexture(*(TextureManager::getTexture("buttons")));
     play.setTextureRect(sf::IntRect(0, 0, 285, 149));
     play.setPosition(sf::Vector2f(180, 550));
-    //play.setScale(sf::Vector2f(4, 4));
 
     exit.setTexture(*(TextureManager::getTexture("buttons")));
     exit.setTextureRect(sf::IntRect(282, 0, 285, 149));
     exit.setPosition(sf::Vector2f(540, 550));
-    //exit.setScale(sf::Vector2f(4, 4));
 
     sf::Sprite background(*(TextureManager::getTexture("title")));
 
@@ -50,7 +48,7 @@ int Menu::Run(sf::RenderWindow &window) {
     while(running){
         while(window.pollEvent(Event)){
             if (Event.type == sf::Event::Closed) {
-                return (exitscreen);
+                return exitscreen;
             }
             //Key pressed
             if (Event.type == sf::Event::KeyPressed){
@@ -67,12 +65,10 @@ int Menu::Run(sf::RenderWindow &window) {
                     break;
                 case sf::Keyboard::Return:
                     if (menu == 0){
-                        //Let's get play !
                         playing = true;
-                        return (nextscreen);
+                        return nextscreen;
                     } else {
-                        //Let's get work...
-                        return (exitscreen);
+                        return exitscreen;
                     }
                     break;
                 default:
@@ -80,14 +76,11 @@ int Menu::Run(sf::RenderWindow &window) {
                 }
             }
         }
-        //Clearing screen
         window.clear();
-        //Drawing
         window.draw(background);
         window.draw(play);
         window.draw(exit);
         window.display();
     }
-	//Never reaching this point normally, but just in case, exit the application
 	return exitscreen;
 }

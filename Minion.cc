@@ -6,7 +6,6 @@ Minion::Minion() {
 float speed, health, initialHealth;
 sf::Sprite minionSprite;
 deque<pair<sf::Vector2f,sf::Vector2f>> movements;
-sf::Vector2f currPosition;
 sf::RectangleShape healthBar;
 int OFFSET = 10;
 
@@ -97,12 +96,8 @@ void Minion::updateHealthBar(float hlt){
     }
 }
 
-void Minion::setPosition(sf::Vector2f position){
-    currPosition = position;
-}
-
 sf::Vector2f Minion::getPosition(){
-    return currPosition;
+    return minionSprite.getPosition();
 }
 
 void Minion::damage(float dam){

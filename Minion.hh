@@ -15,7 +15,6 @@ class Minion {
    float speed, health, initialHealth;
    sf::Sprite minionSprite;
    deque<pair<sf::Vector2f,sf::Vector2f>> movements;
-   sf::Vector2f currPosition;
    sf::RectangleShape healthBar;
 
    Minion();
@@ -27,7 +26,6 @@ public:
    void updateHealthBar(float hlt);
    void damage(float dam);
    bool isAlive();
-   void setPosition(sf::Vector2f position);
    sf::Vector2f getPosition();
    void setSpeed(float spd);
    float getSpeed();

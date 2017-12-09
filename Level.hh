@@ -14,6 +14,7 @@ private:
 	LevelParser thisLevel;
 	sf::View view;
 	vector<Minion> minions;
+    int minionCount = 0;
 	sf::Clock clock;
     string levelfile;
     string musicfile;
@@ -25,6 +26,7 @@ public:
 };
 
 Level::Level(int levelid) {
+    minionCount = 0;
     switch(levelid){
         case LevelConstants::LEVEL1_ID:
             levelfile  = Level1::LEVEL_FILE;
@@ -42,13 +44,18 @@ Level::Level(int levelid) {
             nextscreen = 6;
         break;
     }
-	thisLevel.loadLevel(levelfile);
-	view.setCenter(sf::Vector2f(512, 384));
-	view.setSize(sf::Vector2f(1024, 768));
-	view.setViewport(sf::FloatRect(0, 0, 1, 1));
+}
+
+bool eop(sf::Vector2f a, sf::Vector2f b){
+    return a.x >= b.x and a.y >= b.y;
 }
 
 int Level::Run(sf::RenderWindow &window) {
+    thisLevel.loadLevel(levelfile);
+    view.setCenter(sf::Vector2f(512, 384));
+    view.setSize(sf::Vector2f(1024, 768));
+    view.setViewport(sf::FloatRect(0, 0, 1, 1));
+
     sf::Music music;
     if (!music.openFromFile(musicfile)) {
         return -1;
@@ -115,7 +122,6 @@ int Level::Run(sf::RenderWindow &window) {
                     m.setHealth(100);
 
                     minions.push_back(m);
-                    //return 1;//next screen
                 }
             }
         }
@@ -131,6 +137,13 @@ int Level::Run(sf::RenderWindow &window) {
         for (int i = 0; i < minions.size(); i++) {
             minions[i].move(timeElapsed);
             minions[i].draw(window);
+            if (eop(minions[i].getPosition(), thisLevel.getEndOfPath())){
+                minionCount++;
+                minions.erase(minions.begin()+i);
+            }
+        }
+        if (minionCount > 4){ //rushed end of game criteria
+            return nextscreen;
         }
         window.display();
     }

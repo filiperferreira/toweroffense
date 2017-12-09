@@ -43,6 +43,9 @@ int NextLevel::Run(sf::RenderWindow &window) {
 
     TextureManager::loadTexture(unlockable, unlockable);
     sf::Sprite background(*(TextureManager::getTexture(unlockable)));
+    view.setCenter(sf::Vector2f(512, 384));
+    view.setSize(sf::Vector2f(1024, 768));
+    view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
     bool running = true;
     sf::Event Event;
@@ -56,6 +59,7 @@ int NextLevel::Run(sf::RenderWindow &window) {
             }
         }
         window.clear();
+        window.setView(view);
         window.draw(background);
         window.display();
     }
