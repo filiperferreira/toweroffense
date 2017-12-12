@@ -19,7 +19,7 @@ private:
 	sf::Clock clock;
     string levelfile;
     string musicfile;
-    int nextscreen; 
+    int nextscreen, levelid; 
 
 public:
 	Level(int level);
@@ -28,6 +28,7 @@ public:
 
 Level::Level(int levelid) {
     minionCount = 0;
+    levelid = levelid;
     switch(levelid){
         case LevelConstants::LEVEL1_ID:
             levelfile  = Level1::LEVEL_FILE;
@@ -45,15 +46,19 @@ Level::Level(int levelid) {
             nextscreen = 6;
         break;
     }
-    player = new Player(levelid);
 }
 
 bool eop(sf::Vector2f a, sf::Vector2f b){
-    return a.x >= b.x and a.y >= b.y;
+    return a.x >= b.x && a.y >= b.y;
+}
+
+bool gameOver(Player* player, vector<Minion> minions){
+    return player->getWallet() < 50 && minions.size() == 0;
 }
 
 int Level::Run(sf::RenderWindow &window) {
     thisLevel.loadLevel(levelfile);
+    player = new Player(levelid, thisLevel);
 
     sf::Music music;
     if (!music.openFromFile(musicfile)) {
@@ -78,29 +83,29 @@ int Level::Run(sf::RenderWindow &window) {
                     Minion m(SLIMIE_MINION, thisLevel);
                     m.setSpeed(10);
                     m.setHealth(200);
-
-                    minions.push_back(m);
+                    m.setPrice(50);
+                    if (player->buy(m)) minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
                     Minion m(SKULLIE_MINION, thisLevel);
                     m.setSpeed(20);
                     m.setHealth(50);
-
-                    minions.push_back(m);
+                    m.setPrice(100);
+                    if (player->buy(m)) minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
                     Minion m(GHOSTIE_MINION, thisLevel);
                     m.setSpeed(15);
                     m.setHealth(80);
-
-                    minions.push_back(m);
+                    m.setPrice(200);
+                    if (player->buy(m)) minions.push_back(m);
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
                     Minion m(BASTIE_MINION, thisLevel);
                     m.setSpeed(30);
                     m.setHealth(50);
-
-                    minions.push_back(m);
+                    m.setPrice(500);
+                    if (player->buy(m)) minions.push_back(m);
                 }
             }
         }
@@ -115,15 +120,18 @@ int Level::Run(sf::RenderWindow &window) {
         for (int i = 0; i < minions.size(); i++) {
             minions[i].move(timeElapsed);
             minions[i].draw(window);
-            //printf("%f %f, %f %f\n", minions[0].getPosition().x, minions[0].getPosition().y, thisLevel.getEndOfPath().x, thisLevel.getEndOfPath().y);
             if (eop(minions[i].getPosition(), thisLevel.getEndOfPath())){
-                //printf("%f %f", thisLevel.getEndOfPath().x, thisLevel.getEndOfPath().y);
                 minionCount++;
                 minions.erase(minions.begin()+i);
             }
         }
+        
         if (minionCount > 4){
             return nextscreen;
+        }
+
+        if (gameOver(player, minions)){
+            return 0;
         }
         player->draw(window);
         window.display();

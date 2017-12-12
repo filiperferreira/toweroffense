@@ -6,13 +6,13 @@
 #include "Minion.hh"
 #include "LevelParser.hh"
 #include "Constants.hh"
-
+#include <string>
 #include <vector>
 
 using namespace std;
 
 class Player {
-   int wallet = 0;
+   int wallet = 2000;
    sf::Sprite menu;
    sf::Sprite slimie;
    sf::Sprite ghostie;
@@ -22,8 +22,9 @@ class Player {
    sf::Font MyFont;
 
 public:
-   Player(int levelid);
+   Player(int levelid, LevelParser lp);
    ~Player();
+   int getWallet();
    void draw(sf::RenderTarget& target);
    bool buy(Minion m);
 };

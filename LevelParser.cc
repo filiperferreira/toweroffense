@@ -1,6 +1,6 @@
 #include "LevelParser.hh"
 
-int sizeX, sizeY;
+int sizeX, sizeY, wallet;
 sf::Vector2f minionSpawn, endOfPath;
 map<char, sf::Texture> textureMap;
 vector<sf::Texture> texture;
@@ -35,6 +35,7 @@ void LevelParser::loadLevel(string level) {
 }
 
 void LevelParser::parse(ifstream* mapFile){
+    wallet  = parseWallet(mapFile);
     minions = parseLine(mapFile);
     towers  = parseLine(mapFile);
     parseLevel(mapFile);
@@ -68,12 +69,22 @@ vector<string> LevelParser::parseLine(ifstream* mapFile){
     return chars;
 }
 
+int LevelParser::parseWallet(ifstream* mapFile){
+    string line;
+    std::getline((*mapFile), line);
+    return atoi(line.c_str());
+}
+
 int LevelParser::mapSizeX() {
     return sizeX;
 }
 
 int LevelParser::mapSizeY() {
     return sizeY;
+}
+
+int LevelParser::getWallet() {
+    return wallet;
 }
 
 void LevelParser::setLevelPosition(char curTile, int x, int y){
