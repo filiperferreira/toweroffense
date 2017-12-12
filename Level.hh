@@ -19,7 +19,7 @@ private:
 	sf::Clock clock;
     string levelfile;
     string musicfile;
-    int nextscreen, levelid; 
+    int nextscreen; 
 
 public:
 	Level(int level);
@@ -28,7 +28,6 @@ public:
 
 Level::Level(int levelid) {
     minionCount = 0;
-    levelid = levelid;
     switch(levelid){
         case LevelConstants::LEVEL1_ID:
             levelfile  = Level1::LEVEL_FILE;
@@ -46,6 +45,7 @@ Level::Level(int levelid) {
             nextscreen = 6;
         break;
     }
+    player = new Player(levelid);
 }
 
 bool eop(sf::Vector2f a, sf::Vector2f b){
@@ -58,8 +58,8 @@ bool gameOver(Player* player, vector<Minion> minions){
 
 int Level::Run(sf::RenderWindow &window) {
     thisLevel.loadLevel(levelfile);
-    player = new Player(levelid, thisLevel);
-
+    player->setLevel(thisLevel);
+    
     sf::Music music;
     if (!music.openFromFile(musicfile)) {
         return -1;

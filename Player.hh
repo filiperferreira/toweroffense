@@ -12,7 +12,7 @@
 using namespace std;
 
 class Player {
-   int wallet = 2000;
+   int wallet = 0;
    sf::Sprite menu;
    sf::Sprite slimie;
    sf::Sprite ghostie;
@@ -20,11 +20,13 @@ class Player {
    sf::Sprite batsie;
    sf::Text walletText;
    sf::Font MyFont;
+   LevelParser level;
 
 public:
-   Player(int levelid, LevelParser lp);
+   Player(int levelid);
    ~Player();
    int getWallet();
+   void setLevel(LevelParser level);
    void draw(sf::RenderTarget& target);
    bool buy(Minion m);
 };

@@ -10,7 +10,7 @@ std::string NumberToString ( T Number ) {
     return ss.str();
 }
 
-Player::Player(int levelid, LevelParser lp) {
+Player::Player(int levelid) {
 	menu.setTexture(*(TextureManager::getTexture(MENU)));
 	slimie.setTexture(*(TextureManager::getTexture(SLIMIE)));
 	slimie.setPosition(70,25);
@@ -31,7 +31,6 @@ Player::Player(int levelid, LevelParser lp) {
     if (!MyFont.loadFromFile(TOY_FONT)) {
         printf("error");
     }
-    wallet = lp.getWallet();
     walletText.setFont(MyFont);
     walletText.setString("$" + NumberToString(wallet));
     walletText.setCharacterSize(100);
@@ -59,6 +58,11 @@ bool Player::buy(Minion m){
 
 int Player::getWallet(){
     return wallet;
+}
+
+void Player::setLevel(LevelParser level){
+    level  = level;
+    wallet = level.getWallet();
 }
 
 Player::~Player() {
