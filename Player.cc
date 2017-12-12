@@ -1,7 +1,14 @@
 #include "Player.hh"
+#include <sstream>
 
 using namespace MenuConstants;
 
+template <typename T>
+std::string NumberToString ( T Number ) {
+    std::ostringstream ss;
+    ss << Number;
+    return ss.str();
+}
 
 Player::Player(int levelid) {
 	menu.setTexture(*(TextureManager::getTexture(MENU)));
@@ -21,6 +28,14 @@ Player::Player(int levelid) {
 			ghostie.setPosition(skullie.getPosition() + sf::Vector2f(140, 0));
         break;
     }
+    if (!MyFont.loadFromFile(TOY_FONT)) {
+        printf("error");
+    }
+    walletText.setFont(MyFont);
+    walletText.setString("$" + NumberToString(wallet));
+    walletText.setCharacterSize(100);
+    walletText.setFillColor(sf::Color(224, 150, 168));
+    walletText.setPosition(sf::Vector2f(820, 25));
 }
 
 void Player::draw(sf::RenderTarget& target){
@@ -29,6 +44,7 @@ void Player::draw(sf::RenderTarget& target){
     target.draw(skullie);
     target.draw(ghostie);
     target.draw(batsie);
+    target.draw(walletText);
 }
 
 bool Player::buy(Minion m){

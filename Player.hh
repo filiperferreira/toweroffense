@@ -12,12 +12,14 @@
 using namespace std;
 
 class Player {
-   int wallet;
+   int wallet = 0;
    sf::Sprite menu;
    sf::Sprite slimie;
    sf::Sprite ghostie;
    sf::Sprite skullie;
    sf::Sprite batsie;
+   sf::Text walletText;
+   sf::Font MyFont;
 
 public:
    Player(int levelid);

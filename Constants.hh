@@ -57,5 +57,7 @@ namespace MenuConstants {
   const string GHOSTIE  = "resources/textures/ghostie_card.png";
   const string BATSIE   = "resources/textures/batsie_card.png";
 
+  const string TOY_FONT   = "resources/fonts/Toy.ttf";
+
 }
 #endif
