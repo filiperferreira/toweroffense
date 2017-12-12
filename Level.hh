@@ -141,6 +141,7 @@ int Level::Run(sf::RenderWindow &window) {
         }
 
         em.drawTowers(window);
+        em.attack(minions);
         
         if (minionCount > 4){
             return nextscreen;

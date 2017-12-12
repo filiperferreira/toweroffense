@@ -95,10 +95,7 @@ float Minion::getHealth(){
 }
 
 void Minion::updateHealthBar(float dam){
-    if (health > 35)
-        healthBar.setSize(sf::Vector2f(35, 5));
-    else
-        healthBar.setSize(sf::Vector2f(health, 5));
+    healthBar.setSize(sf::Vector2f(health/4, 5));
     healthBar.setFillColor(sf::Color(112, 87, 156));
     if (initialHealth*0.5 >= health){
         healthBar.setFillColor(sf::Color(255,165,0));
