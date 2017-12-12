@@ -20,8 +20,11 @@ LevelParser.o: LevelParser.cc
 Player.o: Player.cc
 	g++ -c Player.cc -I SFML-2.4.2/include/ -std=c++11
 
-toweroffense: main.o TextureManager.o LevelParser.o Minion.o Tower.o Player.o
-	g++ main.o TextureManager.o LevelParser.o Minion.o Tower.o Player.o -o toweroffense -L SFML-2.4.2/lib $(LIBS)
+EnemyManager.o: EnemyManager.cc
+	g++ -c EnemyManager.cc -I SFML-2.4.2/include/ -std=c++11
+
+toweroffense: main.o EnemyManager.o TextureManager.o LevelParser.o Minion.o Tower.o Player.o 
+	g++ main.o EnemyManager.o TextureManager.o LevelParser.o Minion.o Tower.o Player.o -o toweroffense -L SFML-2.4.2/lib $(LIBS)
 
 clean:
 	rm -rf toweroffense.exe *.o

@@ -4,6 +4,7 @@
 #include "LevelParser.hh"
 #include "Player.hh"
 #include "Constants.hh"
+#include "EnemyManager.hh"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -63,6 +64,7 @@ bool gameOver(Player* player, vector<Minion> minions){
 int Level::Run(sf::RenderWindow &window) {
     thisLevel.loadLevel(levelfile);
     player->setLevel(thisLevel);
+    EnemyManager em(thisLevel);
 
     sf::Music music;
     if (!music.openFromFile(musicfile)) {
@@ -137,6 +139,8 @@ int Level::Run(sf::RenderWindow &window) {
                 minions.erase(minions.begin()+i);
             }
         }
+
+        em.drawTowers(window);
         
         if (minionCount > 4){
             return nextscreen;

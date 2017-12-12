@@ -23,6 +23,8 @@ void loadTextures(){
     TextureManager::loadTexture(MenuConstants::SKULLIE, MenuConstants::SKULLIE);
     TextureManager::loadTexture(MenuConstants::GHOSTIE, MenuConstants::GHOSTIE);
     TextureManager::loadTexture(MenuConstants::BATSIE, MenuConstants::BATSIE);
+
+    TextureManager::loadTexture(TowerConstants::DESTROYER, TowerConstants::DESTROYER);
 }
 
 int main() {

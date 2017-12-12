@@ -60,4 +60,8 @@ namespace MenuConstants {
   const string TOY_FONT   = "resources/fonts/Toy.ttf";
 
 }
+
+namespace TowerConstants {
+  const string DESTROYER = "resources/textures/tower.png";
+}
 #endif

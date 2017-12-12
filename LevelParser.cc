@@ -7,6 +7,7 @@ vector<sf::Texture> texture;
 vector<vector<sf::Sprite>> tile;
 vector<string> minions;
 vector<string> towers;
+vector<sf::Vector2f> towerPositions;
 deque< pair<sf::Vector2f,sf::Vector2f> > minionMovements;
 
 using namespace LevelConstants;
@@ -15,7 +16,7 @@ LevelParser::LevelParser() {
     texture = vector<sf::Texture>(4);
     texture[0].loadFromFile(GRASS_TILE);
     texture[1].loadFromFile(GROUND_TILE);
-    texture[2].loadFromFile("resources/textures/towertile.png");
+    texture[2].loadFromFile(GRASS_TILE);
 
     textureMap[GRASS]    = texture[0];
     textureMap[PATH]     = texture[1];
@@ -91,6 +92,10 @@ void LevelParser::setLevelPosition(char curTile, int x, int y){
     if (curTile == SPAWN){
         minionSpawn = sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE);
     }
+    
+    if (curTile == TOWER){
+        towerPositions.push_back(sf::Vector2f(x*SPRITE_SIZE, y*SPRITE_SIZE));
+    }
 }
 
 sf::Vector2f LevelParser::getMinionSpawnPos(){
@@ -128,6 +133,10 @@ deque<pair<sf::Vector2f,sf::Vector2f>> LevelParser::parsePath(ifstream* mapFile)
 
 sf::Sprite LevelParser::getTile(int x, int y) {
     return tile[x][y];
+}
+
+vector<sf::Vector2f> LevelParser::getTowerPositions(){
+    return towerPositions;
 }
 
 LevelParser::~LevelParser(){

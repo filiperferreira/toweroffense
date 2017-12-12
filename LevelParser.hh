@@ -24,6 +24,7 @@ class LevelParser {
    vector<vector<sf::Sprite>> tile;
    vector<string> minions;
    vector<string> towers;
+   vector<sf::Vector2f> towerPositions;
    deque< pair<sf::Vector2f,sf::Vector2f> > minionMovements;
 
 private:
@@ -47,6 +48,7 @@ public:
    vector<string> parseLine(ifstream* mapFile);
    void parseLevel(ifstream* mapFile);
    deque< pair<sf::Vector2f,sf::Vector2f> > parsePath(ifstream* mapFile);
+   vector<sf::Vector2f> getTowerPositions();
 };
 
 #endif
