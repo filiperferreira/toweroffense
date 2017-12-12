@@ -23,21 +23,12 @@ Player::Player(int levelid) {
     }
 }
 
-void Player::draw(sf::RenderTarget& target, sf::View view){
+void Player::draw(sf::RenderTarget& target){
     target.draw(menu);
     target.draw(slimie);
     target.draw(skullie);
     target.draw(ghostie);
     target.draw(batsie);
-    //updatePosition(view);
-}
-
-void Player::updatePosition(sf::View view){
-    menu.setPosition(view.getCenter()-sf::Vector2f(512, 384));
-    /*slimie.move(menu.getPosition());
-    skullie.move(menu.getPosition());
-    ghostie.move(menu.getPosition());
-    batsie.move(menu.getPosition());*/
 }
 
 bool Player::buy(Minion m){

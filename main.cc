@@ -13,10 +13,10 @@ using namespace MinionConstants;
 
 void loadTextures(){
     // needs to name the texture and then call getTexture by its name
-    TextureManager::loadTexture(WATER_MINION, WATER_MINION);
-    TextureManager::loadTexture(EARTH_MINION, EARTH_MINION);
-    TextureManager::loadTexture(FIRE_MINION, FIRE_MINION);
-    TextureManager::loadTexture(WIND_MINION, WIND_MINION);
+    TextureManager::loadTexture(SLIMIE_MINION, SLIMIE_MINION);
+    TextureManager::loadTexture(SKULLIE_MINION, SKULLIE_MINION);
+    TextureManager::loadTexture(GHOSTIE_MINION, GHOSTIE_MINION);
+    TextureManager::loadTexture(BASTIE_MINION, BASTIE_MINION);
 
     TextureManager::loadTexture(MenuConstants::MENU, MenuConstants::MENU);
     TextureManager::loadTexture(MenuConstants::SLIMIE, MenuConstants::SLIMIE);

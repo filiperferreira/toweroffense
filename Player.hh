@@ -22,9 +22,8 @@ class Player {
 public:
    Player(int levelid);
    ~Player();
-   void draw(sf::RenderTarget& target, sf::View view);
+   void draw(sf::RenderTarget& target);
    bool buy(Minion m);
-   void updatePosition(sf::View view);
 };
 
 #endif

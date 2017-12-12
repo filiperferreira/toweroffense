@@ -42,10 +42,10 @@ namespace Level3 {
 
 namespace MinionConstants{  
 
-  const string WATER_MINION   = "resources/textures/blue.png";
-  const string EARTH_MINION   = "resources/textures/green.png";
-  const string FIRE_MINION    = "resources/textures/yellow.png";
-  const string WIND_MINION    = "resources/textures/purple.png";
+  const string SLIMIE_MINION   = "resources/textures/slimie.png";
+  const string SKULLIE_MINION  = "resources/textures/skullie.png";
+  const string GHOSTIE_MINION  = "resources/textures/ghostie.png";
+  const string BASTIE_MINION   = "resources/textures/batsie.png";
 
 }
 
