@@ -20,6 +20,7 @@ private:
     string levelfile;
     string musicfile;
     int nextscreen; 
+    int permission = 0;
 
 public:
 	Level(int level);
@@ -33,16 +34,19 @@ Level::Level(int levelid) {
             levelfile  = Level1::LEVEL_FILE;
             musicfile  = Level1::MUSIC_FILE;
             nextscreen = 2;
+            permission = 1;
         break;
         case LevelConstants::LEVEL2_ID:
             levelfile = Level2::LEVEL_FILE;
             musicfile = Level2::MUSIC_FILE;
             nextscreen = 4;
+            permission = 2;
         break;
         case LevelConstants::LEVEL3_ID:
             levelfile = Level3::LEVEL_FILE;
             musicfile = Level3::MUSIC_FILE;
             nextscreen = 6;
+            permission = 3;
         break;
     }
     player = new Player(levelid);
@@ -59,7 +63,7 @@ bool gameOver(Player* player, vector<Minion> minions){
 int Level::Run(sf::RenderWindow &window) {
     thisLevel.loadLevel(levelfile);
     player->setLevel(thisLevel);
-    
+
     sf::Music music;
     if (!music.openFromFile(musicfile)) {
         return -1;
@@ -80,32 +84,40 @@ int Level::Run(sf::RenderWindow &window) {
             }
             if (event.type == sf::Event::KeyPressed) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-                    Minion m(SLIMIE_MINION, thisLevel);
-                    m.setSpeed(10);
-                    m.setHealth(200);
-                    m.setPrice(50);
-                    if (player->buy(m)) minions.push_back(m);
+                    if (permission >= 1){
+                        Minion m(SLIMIE_MINION, thisLevel);
+                        m.setSpeed(10);
+                        m.setHealth(200);
+                        m.setPrice(50);
+                        if (player->buy(m)) minions.push_back(m);
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-                    Minion m(SKULLIE_MINION, thisLevel);
-                    m.setSpeed(20);
-                    m.setHealth(50);
-                    m.setPrice(100);
-                    if (player->buy(m)) minions.push_back(m);
+                    if (permission >= 1){
+                        Minion m(SKULLIE_MINION, thisLevel);
+                        m.setSpeed(20);
+                        m.setHealth(50);
+                        m.setPrice(100);
+                        if (player->buy(m)) minions.push_back(m);
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-                    Minion m(GHOSTIE_MINION, thisLevel);
-                    m.setSpeed(15);
-                    m.setHealth(80);
-                    m.setPrice(200);
-                    if (player->buy(m)) minions.push_back(m);
+                    if (permission >= 2){
+                        Minion m(GHOSTIE_MINION, thisLevel);
+                        m.setSpeed(15);
+                        m.setHealth(80);
+                        m.setPrice(200);
+                        if (player->buy(m)) minions.push_back(m);
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-                    Minion m(BASTIE_MINION, thisLevel);
-                    m.setSpeed(30);
-                    m.setHealth(50);
-                    m.setPrice(500);
-                    if (player->buy(m)) minions.push_back(m);
+                    if (permission >= 3){
+                        Minion m(BASTIE_MINION, thisLevel);
+                        m.setSpeed(30);
+                        m.setHealth(50);
+                        m.setPrice(500);
+                        if (player->buy(m)) minions.push_back(m);
+                    }
                 }
             }
         }
